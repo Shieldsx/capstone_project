@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,9 +24,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-@h31e!(%_1haj2!ai261^t^ex2*+hh@enjh29_(p6vzy*snzip'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "capstone-todo-f-1ceb56fe0954.herokuapp.com",
+    "capstone-todo-f.herokuapp.com",
+    "localhost",
+    "127.0.0.1",
+]
 
 
 # Application definition

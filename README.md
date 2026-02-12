@@ -2,6 +2,41 @@
 This is my capstone project. It is a to-do list.
 
 Setup Instructions
-1. Environment Setup
-Create project folder and open in IDE
-Create GitHub repository and connect to workspace
+1. Repository & Project Initialisation
+
+Created a GitHub repository named capstone_project
+
+Connected the local workspace to the GitHub repository
+
+Created a GitHub Project (Kanban board) and added all user stories as issues
+
+Applied labels for Epics, Type, and Priority
+
+2. Heroku Setup (Early Deployment Strategy)
+
+Installed the Heroku CLI
+
+Logged in via terminal
+
+Created Heroku app:
+
+capstone-project-f
+
+
+Confirmed Heroku remote was added to local repository
+
+Set initial environment variables in Heroku:
+
+SECRET_KEY (temporary placeholder)
+
+DEBUG=False
+
+This ensures deployment configuration is established before development begins.
+
+3. Runtime Configuration
+
+Created runtime.txt
+
+Specified Python version to ensure consistency between local and production environments.
+
+

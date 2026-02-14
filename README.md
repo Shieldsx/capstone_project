@@ -149,6 +149,32 @@ Gunicorn serving Django
 
 Application accessible via Heroku URL
 
-Initial placeholder route returning HTTP response
+Initial placeholder route returning HTTP response.
+
+----------------
+
+## Authentication Configuration (django-allauth)
+
+Django-allauth was installed and configured to handle user authentication.
+
+The following configuration steps were completed:
+
+- Added `django.contrib.sites` to INSTALLED_APPS
+- Added:
+    - allauth
+    - allauth.account
+    - allauth.socialaccount
+- Configured AUTHENTICATION_BACKENDS to include Allauth backend
+- Set SITE_ID = 1
+- Created project-level templates directory
+- Added `django.template.context_processors.request` (required by allauth)
+- Configured login and logout redirect URLs
+- Set minimal account settings for MVP:
+    - Email required
+    - Username required
+    - Email verification disabled (MVP scope)
+
+This prepares the project for implementing Register, Login, Logout, and Account Management functionality in Phase 1.
+
 
 

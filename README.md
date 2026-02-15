@@ -178,3 +178,51 @@ This prepares the project for implementing Register, Login, Logout, and Account 
 
 After realizing my secret was hardcoded in my settings.py file I moved SECRET_KEY to env var; rotated after accidental exposure.
 
+----------------
+
+## Middleware & URL Wiring
+
+After configuring django-allauth in settings.py, the authentication system was fully wired into the project:
+Added allauth.account.middleware.AccountMiddleware to MIDDLEWARE
+Included path("accounts/", include("allauth.urls")) in todo_project/urls.py
+Confirmed SITE_ID = 1 and updated local Site record for development
+
+Verified all required migrations for:
+
+account
+auth
+sessions
+sites
+socialaccount
+
+This ensured the authentication routes were active and functional.
+
+--------
+
+Template Scaffold (Authentication Phase)
+
+To establish a consistent UI foundation:
+
+Created a project-level templates/ directory
+Created base.html as the shared layout
+Created templates/todo/home.html
+Updated home view to render todo/home.html
+Confirmed navigation conditionally displays:
+Login / Register (anonymous users)
+Logout + Account links (authenticated users)
+
+This establishes the base layout for Phase 1 before introducing List and Task models.
+
+-------
+
+Local & Production Alignment
+
+Confirmed authentication routes work locally:
+
+/accounts/login/
+/accounts/signup/
+/accounts/password/reset/
+Verified application deploys successfully on Heroku
+Confirmed Gunicorn boots correctly with no startup errors
+Maintained environment variable configuration for SECRET_KEY
+Rotated exposed secret key and removed hardcoded value from codebase

@@ -176,5 +176,5 @@ The following configuration steps were completed:
 
 This prepares the project for implementing Register, Login, Logout, and Account Management functionality in Phase 1.
 
-
+After realizing my secret was hardcoded in my settings.py file I moved SECRET_KEY to env var; rotated after accidental exposure.
 

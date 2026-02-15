@@ -226,3 +226,26 @@ Verified application deploys successfully on Heroku
 Confirmed Gunicorn boots correctly with no startup errors
 Maintained environment variable configuration for SECRET_KEY
 Rotated exposed secret key and removed hardcoded value from codebase
+
+-----------
+
+Authentication — Production Verification (Heroku)
+Manual production testing completed on Heroku to confirm the Phase 1 authentication scaffold is working end-to-end.
+
+Tests performed (Production):
+
+Home page loads successfully (/)
+Signup works (/accounts/signup/)
+User is automatically logged in after signup
+Redirect to home (/) confirmed
+Authenticated navigation displays account actions (Update Email / Change Password / Logout)
+No email verification required (MVP setting)
+No debug traceback visible in production (DEBUG=False)
+
+Result: Pass (Phase 1 complete)
+
+
+Development Phases
+Phase 1: Authentication scaffold + production verification (Complete)
+Phase 2: Custom models (List, Task) + ownership + CRUD
+Phase 3: UX polish (messages, confirmations), testing, README finalisation, AI reflection

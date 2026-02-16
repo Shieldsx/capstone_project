@@ -298,3 +298,70 @@ This prevents:
 Accidental credential leaks
 Committing local database files
 Deployment inconsistencies
+
+------------------------------------------------
+
+Phase 2 – Custom Models & Ownership Architecture
+
+Custom Data Models
+Two relational models were implemented to satisfy the custom model requirement:
+
+TodoList Model
+
+owner → ForeignKey to User (required, CASCADE)
+name → CharField
+created_on → DateTimeField (auto_now_add)
+updated_on → DateTimeField (auto_now)
+
+Task Model
+
+todo_list → ForeignKey to TodoList (CASCADE)
+title → CharField
+description → Optional TextField
+completed → BooleanField (default=False)
+due_date → Optional DateField
+created_on → DateTimeField
+updated_on → DateTimeField
+
+This establishes a relational hierarchy:
+
+User → TodoList → Task
+
+Ownership & Authorisation Strategy
+Authorisation is enforced at multiple levels:
+
+All list views use LoginRequiredMixin
+Querysets filter strictly by owner=request.user
+List creation assigns owner=request.user server-side
+URL-level access uses get_object_or_404(..., owner=request.user)
+Tasks are scoped via todo_list__owner=request.user
+
+This prevents:
+
+Accessing another user’s data via URL manipulation
+Spoofing ownership via POST requests
+Orphaned records
+
+Non-authorised access returns HTTP 404 to avoid leaking object existence.
+
+Relational Integrity Decisions
+on_delete=models.CASCADE used for:
+List → User
+Task → TodoList
+
+This ensures:
+
+No orphaned tasks
+No orphaned lists
+Referential integrity maintained in PostgreSQL
+
+Manual Testing (Phase 2)
+Tested locally and in production:
+
+Logged-out users redirected to login
+Logged-in users see only their own lists
+Users cannot access another user's list via direct URL
+List creation assigns correct owner
+Production migrations applied successfully in Heroku Postgres
+
+Result: Authorisation requirement satisfied.

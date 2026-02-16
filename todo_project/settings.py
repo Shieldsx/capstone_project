@@ -96,8 +96,8 @@ TEMPLATES = [
     },
 ]
 
-LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "todo:list_index"
+LOGOUT_REDIRECT_URL = "account_login"
 
 ACCOUNT_LOGIN_METHODS = {"username", "email"}
 

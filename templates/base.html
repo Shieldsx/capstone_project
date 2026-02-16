@@ -9,7 +9,7 @@
 
 <header>
     <nav>
-        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'todo:list_index' %}">Home</a>
 
         {% if user.is_authenticated %}
             <span>Signed in as {{ user.username }}</span>

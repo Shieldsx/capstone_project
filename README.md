@@ -249,3 +249,32 @@ Development Phases
 Phase 1: Authentication scaffold + production verification (Complete)
 Phase 2: Custom models (List, Task) + ownership + CRUD
 Phase 3: UX polish (messages, confirmations), testing, README finalisation, AI reflection
+
+----------
+## Production Database Setup (Heroku Postgres)
+
+During deployment verification, the app was initially found to be using SQLite in production (`/app/db.sqlite3`) despite `DATABASE_URL` being set. This would not meet the requirement for PostgreSQL in production.
+
+### Fix: DATABASES configuration
+`settings.py` was updated so that:
+- In production (when `DATABASE_URL` exists), Django uses PostgreSQL via `dj_database_url`
+- In local development (when `DATABASE_URL` is not set), Django falls back to SQLite
+
+Production database usage was verified on Heroku using Django shell (`connection.vendor == "postgresql"`).
+
+### Heroku Postgres provisioning
+A Heroku Postgres add-on was attached to the app:
+
+- Plan: `heroku-postgresql:essential-0`
+
+Provisioning was confirmed using:
+- `heroku addons:info ...`
+- `heroku pg:wait`
+- `heroku pg:info`
+- `heroku config:get DATABASE_URL`
+
+### Production migrations + admin verification
+After attaching Postgres:
+- Production migrations were applied (`python manage.py migrate`)
+- A production superuser was created (`python manage.py createsuperuser`)
+- Admin login was confirmed via `/admin/`

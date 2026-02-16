@@ -278,3 +278,23 @@ After attaching Postgres:
 - Production migrations were applied (`python manage.py migrate`)
 - A production superuser was created (`python manage.py createsuperuser`)
 - Admin login was confirmed via `/admin/`
+
+### Repository & Environment Configuration
+
+To ensure production security and clean version control:
+
+A .gitignore file was created to exclude:
+db.sqlite3 (local development database)
+Virtual environment directories (.venv/)
+__pycache__/ files
+Environment configuration files (env.py, .env)
+Sensitive data such as SECRET_KEY is stored in Heroku environment variables.
+DEBUG is set to False in production.
+PostgreSQL is used in production via DATABASE_URL.
+SQLite is used locally for development only.
+
+This prevents:
+
+Accidental credential leaks
+Committing local database files
+Deployment inconsistencies

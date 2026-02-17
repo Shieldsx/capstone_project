@@ -365,3 +365,23 @@ List creation assigns correct owner
 Production migrations applied successfully in Heroku Postgres
 
 Result: Authorisation requirement satisfied.
+
+----------------
+
+## Phase 2 — Step 7: List Detail + URL Ownership Enforcement
+
+Added list detail route: /lists/<int:pk>/
+
+Implemented TodoListDetailView with LoginRequiredMixin
+
+Enforced ownership in get_object() using get_object_or_404(TodoList, pk=..., owner=request.user) so URL manipulation returns 404
+
+Updated list index to link to list detail pages
+
+Added minimal list_detail.html template (foundation for Task CRUD)
+
+Manual tests:
+
+Logged-out users redirected to login
+
+User B cannot access User A’s list by direct URL (404)

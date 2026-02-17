@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Your lists</h1>
+
+<p><a href="{% url 'todo:list_create' %}">+ Create new list</a></p>
+
+{% if messages %}
+  <ul>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+{% if lists %}
+  <ul>
+    {% for l in lists %}
+  <li>
+    <a href="{% url 'todo:list_detail' l.pk %}">
+      {{ l.name }}
+    </a>
+  </li>
+{% endfor %}
+
+  </ul>
+{% else %}
+  <p>No lists yet.</p>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>{{ todo_list.name }}</h1>
+
+<p><a href="{% url 'todo:list_index' %}">← Back to lists</a></p>
+
+{% endblock %}

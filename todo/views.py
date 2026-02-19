@@ -61,6 +61,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.todo_list = self.get_todo_list()
+        messages.success(self.request, "Task created.")
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -75,6 +76,10 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
     model = Task
     template_name = "todo/task_form.html"
     fields = ["title", "description", "due_date"]
+
+    def form_valid(self, form):
+        messages.success(self.request, "Task updated.")
+        return super().form_valid(form)
 
     def get_object(self, queryset=None):
         return get_object_or_404(
@@ -112,6 +117,7 @@ class TaskDeleteView(LoginRequiredMixin, DeleteView):
         )
 
     def get_success_url(self):
+        messages.success(self.request, "Task deleted.")
         return reverse(
             "todo:list_detail",
             kwargs={"pk": self.kwargs["list_pk"]},

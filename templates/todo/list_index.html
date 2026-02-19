@@ -5,13 +5,6 @@
 
 <p><a href="{% url 'todo:list_create' %}">+ Create new list</a></p>
 
-{% if messages %}
-  <ul>
-    {% for message in messages %}
-      <li>{{ message }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
 
 {% if lists %}
   <ul>

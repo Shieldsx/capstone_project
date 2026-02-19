@@ -24,20 +24,6 @@
 </header>
 
 {% if messages %}
-    <ul>
-        {% for message in messages %}
-            <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-{% endif %}
-
-<main>
-    {% block content %}{% endblock %}
-</main>
-
-</body>
-
-{% if messages %}
   <ul class="messages">
     {% for message in messages %}
       <li class="{{ message.tags }}">{{ message }}</li>
@@ -45,4 +31,9 @@
   </ul>
 {% endif %}
 
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+</body>
 </html>

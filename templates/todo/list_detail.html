@@ -3,6 +3,22 @@
 
 <h1>{{ todo_list.name }}</h1>
 
+<h2>Tasks</h2>
+
+<ul>
+  {% for task in todo_list.tasks.all %}
+    <li>
+      {{ task.title }}
+      {% if task.completed %}(done){% endif %}
+      {% if task.due_date %} — due {{ task.due_date }}{% endif %}
+    </li>
+  {% empty %}
+    <li>No tasks yet.</li>
+  {% endfor %}
+</ul>
+
+<p><a href="{% url 'todo:task_create' todo_list.pk %}">+ Add Task</a></p>
+
 <p><a href="{% url 'todo:list_index' %}">← Back to lists</a></p>
 
 {% endblock %}

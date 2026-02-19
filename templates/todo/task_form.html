@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>New Task</h1>
+  <p>List: {{ todo_list.name }}</p>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create Task</button>
+  </form>
+
+  <p>
+    <a href="{% url 'todo:list_detail' todo_list.pk %}">Back to list</a>
+  </p>
+{% endblock %}

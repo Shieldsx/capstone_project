@@ -3,6 +3,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView
+from django.urls import reverse
+from .models import TodoList, Task
+
 
 from .models import TodoList
 
@@ -41,3 +44,29 @@ class TodoListDetailView(LoginRequiredMixin, DetailView):
             pk=self.kwargs["pk"],
             owner=self.request.user,
         )
+    
+class TaskCreateView(LoginRequiredMixin, CreateView):
+    model = Task
+    fields = ["title", "description", "completed", "due_date"]
+    template_name = "todo/task_form.html"
+    login_url = "/accounts/login/"  # optional, but explicit
+
+    def get_todo_list(self):
+        return get_object_or_404(
+            TodoList,
+            pk=self.kwargs["pk"],
+            owner=self.request.user,
+        )
+
+    def form_valid(self, form):
+        form.instance.todo_list = self.get_todo_list()
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["todo_list"] = self.get_todo_list()
+        return context
+
+    def get_success_url(self):
+        return reverse("todo:list_detail", kwargs={"pk": self.kwargs["pk"]})
+

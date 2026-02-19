@@ -439,3 +439,13 @@ Manual testing confirmed (local + production):
 Owners can edit/delete their own tasks
 Logged-out users are redirected to login
 Cross-user URL manipulation returns 404
+
+-----------------------
+
+## Phase 2 – Step 10: UX & Messages
+
+Implemented Django messages framework for CRUD feedback.
+Centralised message display in base.html to ensure consistent global rendering.
+Added success messages for list and task create, update, and delete actions.
+Removed duplicate template message blocks to prevent repeated output.
+Manually tested locally and in production.

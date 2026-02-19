@@ -2,9 +2,10 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, DetailView
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.urls import reverse
 from .models import TodoList, Task
+
 
 
 from .models import TodoList
@@ -70,3 +71,48 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse("todo:list_detail", kwargs={"pk": self.kwargs["pk"]})
 
+class TaskUpdateView(LoginRequiredMixin, UpdateView):
+    model = Task
+    template_name = "todo/task_form.html"
+    fields = ["title", "description", "due_date"]
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            Task,
+            pk=self.kwargs["task_pk"],
+            todo_list__pk=self.kwargs["list_pk"],
+            todo_list__owner=self.request.user,
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["todo_list"] = get_object_or_404(
+            TodoList,
+            pk=self.kwargs["list_pk"],
+            owner=self.request.user,
+        )
+        return context
+
+    def get_success_url(self):
+        return reverse(
+            "todo:list_detail",
+            kwargs={"pk": self.kwargs["list_pk"]},
+        )
+    
+class TaskDeleteView(LoginRequiredMixin, DeleteView):
+    model = Task
+    template_name = "todo/task_confirm_delete.html"
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            Task,
+            pk=self.kwargs["task_pk"],
+            todo_list__pk=self.kwargs["list_pk"],
+            todo_list__owner=self.request.user,
+        )
+
+    def get_success_url(self):
+        return reverse(
+            "todo:list_detail",
+            kwargs={"pk": self.kwargs["list_pk"]},
+        )

@@ -422,3 +422,20 @@ Attempting to access /lists/<other_user_pk>/tasks/new/ returns 404
 Foreign key cannot be overridden via form tampering
 
 Result: Nested Task creation implemented with strict ownership enforcement.
+
+---------------------
+
+## Phase 2: Task Update & Delete
+
+Added nested task edit and delete routes:
+/lists/<list_pk>/tasks/<task_pk>/edit/
+/lists/<list_pk>/tasks/<task_pk>/delete/
+
+Implemented TaskUpdateView and TaskDeleteView with strict ownership enforcement using:
+get_object_or_404(Task, pk=task_pk, todo_list__pk=list_pk, todo_list__owner=request.user)
+Prevented FK reassignment by excluding todo_list from forms and enforcing parent list linkage in object retrieval.
+
+Manual testing confirmed (local + production):
+Owners can edit/delete their own tasks
+Logged-out users are redirected to login
+Cross-user URL manipulation returns 404

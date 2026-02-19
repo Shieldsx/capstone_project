@@ -301,7 +301,7 @@ Deployment inconsistencies
 
 ------------------------------------------------
 
-Phase 2 – Custom Models & Ownership Architecture
+## Phase 2 – Custom Models & Ownership Architecture
 
 Custom Data Models
 Two relational models were implemented to satisfy the custom model requirement:
@@ -368,7 +368,7 @@ Result: Authorisation requirement satisfied.
 
 ----------------
 
-## Phase 2 — Step 7: List Detail + URL Ownership Enforcement
+## Phase 2: List Detail + URL Ownership Enforcement
 
 Added list detail route: /lists/<int:pk>/
 Implemented TodoListDetailView with LoginRequiredMixin
@@ -380,3 +380,45 @@ Manual tests:
 
 Logged-out users redirected to login
 User B cannot access User A’s list by direct URL (404)
+
+----------------
+
+## Phase 2: Nested Task Creation (Ownership Inherited from Parent)
+
+A nested route was implemented to allow task creation within a specific list:
+/lists/<int:pk>/tasks/new/
+
+Architecture Decisions
+
+Implemented TaskCreateView using LoginRequiredMixin
+Parent TodoList resolved using:
+get_object_or_404(TodoList, pk=..., owner=request.user)
+
+The todo_list foreign key is not exposed in the form
+The parent list is assigned server-side in form_valid()
+Redirects back to the parent list detail page on success
+
+This ensures:
+
+Users cannot create tasks inside another user's list
+Foreign key tampering via POST manipulation is prevented
+Tasks inherit ownership implicitly via their parent list
+URL manipulation returns HTTP 404
+
+Template Integration
+
+Updated list_detail.html to:
+Display tasks using todo_list.tasks.all
+Provide a "+ Add Task" link scoped to the current list
+Used related_name="tasks" on the Task foreign key for clean reverse querying
+
+Manual Testing
+
+Tested locally and in production:
+Logged-in users can create tasks inside their own list
+Tasks display correctly under the parent list
+Logged-out users are redirected to login
+Attempting to access /lists/<other_user_pk>/tasks/new/ returns 404
+Foreign key cannot be overridden via form tampering
+
+Result: Nested Task creation implemented with strict ownership enforcement.

@@ -4,11 +4,19 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.urls import reverse
+from django.views.generic import TemplateView
+from django.shortcuts import redirect
 from .models import TodoList, Task
-
-
-
 from .models import TodoList
+
+
+class HomeView(TemplateView):
+    template_name = "home.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect("todo:list_index")
+        return super().dispatch(request, *args, **kwargs)
 
 
 class TodoListIndexView(LoginRequiredMixin, ListView):

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="landing-container">
+
+    <h1 class="landing-title">Welcome</h1>
+
+    <div class="landing-actions">
+        <a href="{% url 'account_login' %}" class="btn btn-primary">Sign In</a>
+        <a href="{% url 'account_signup' %}" class="btn btn-secondary">Sign Up</a>
+    </div>
+
+    <footer class="landing-footer">
+        <p>© 2026 MyApp</p>
+    </footer>
+
+</div>
+{% endblock %}

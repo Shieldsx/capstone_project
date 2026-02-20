@@ -4,31 +4,30 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}To-Do App{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
 
+{% if user.is_authenticated %}
 <header>
     <nav>
         <a href="{% url 'todo:list_index' %}">Home</a>
 
-        {% if user.is_authenticated %}
-            <span>Signed in as {{ user.username }}</span>
-            <a href="{% url 'account_email' %}">Update Email</a>
-            <a href="{% url 'account_change_password' %}">Change Password</a>
-            <a href="{% url 'account_logout' %}">Logout</a>
-        {% else %}
-            <a href="{% url 'account_login' %}">Login</a>
-            <a href="{% url 'account_signup' %}">Register</a>
-        {% endif %}
+        <span>Signed in as {{ user.username }}</span>
+        <a href="{% url 'account_email' %}">Update Email</a>
+        <a href="{% url 'account_change_password' %}">Change Password</a>
+        <a href="{% url 'account_logout' %}">Logout</a>
     </nav>
 </header>
+{% endif %}
 
 {% if messages %}
-  <ul class="messages">
+<div class="messages">
     {% for message in messages %}
-      <li class="{{ message.tags }}">{{ message }}</li>
+        <p class="message {{ message.tags }}">{{ message }}</p>
     {% endfor %}
-  </ul>
+</div>
 {% endif %}
 
 <main>

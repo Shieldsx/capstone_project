@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Sign In{% endblock %}
+
+{% block content %}
+<section class="auth">
+    <h1 class="auth__title">Sign In</h1>
+
+    <form method="post" class="auth__form">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div class="field">
+            {{ form.login.label_tag }}
+            {{ form.login }}
+            {{ form.login.errors }}
+        </div>
+
+        <div class="field">
+            {{ form.password.label_tag }}
+            {{ form.password }}
+            {{ form.password.errors }}
+        </div>
+
+        {% if form.remember %}
+        <div class="field field--inline">
+            {{ form.remember }}
+            <label for="{{ form.remember.id_for_label }}">Remember Me</label>
+        </div>
+        {% endif %}
+
+        <button type="submit" class="btn btn--primary">Sign In</button>
+    </form>
+
+    <div class="auth__alt">
+        <p>Don't have an account? <a href="{% url 'account_signup' %}">Sign Up</a></p>
+    </div>
+
+    <footer class="auth__footer">© 2026 MyApp</footer>
+</section>
+{% endblock %}

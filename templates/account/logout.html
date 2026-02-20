@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Sign Out</h1>
+  <p>Are you sure you want to sign out?</p>
+
+  <form method="post" action="{% url 'account_logout' %}">
+    {% csrf_token %}
+    <button type="submit">Sign Out</button>
+  </form>
+
+  <p style="margin-top: 1rem;">
+    <a href="{% url 'todo:list_index' %}">Cancel</a>
+  </p>
+{% endblock %}

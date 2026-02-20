@@ -449,3 +449,33 @@ Centralised message display in base.html to ensure consistent global rendering.
 Added success messages for list and task create, update, and delete actions.
 Removed duplicate template message blocks to prevent repeated output.
 Manually tested locally and in production.
+
+----------------
+
+## End of Phase 2 Manual Testing
+
+Manual Testing
+
+All core functionality was manually tested in both local development and the deployed Heroku environment.
+
+CRUD & UX Manual Tests (Lists + Tasks)
+Feature	Test Case	Steps	Expected Result	Pass
+List – Create	Create a new list as logged-in user	Login → “New List” → enter name → Save	List created; success message shown; list appears in “Your lists”	✅
+List – Read	View list detail page	From “Your lists” click a list	List detail loads; only that list’s tasks displayed	✅
+List – Delete	Delete existing list	Open list → Delete → confirm	List removed; success message shown; cannot access list URL after deletion (404)	✅
+Task – Create	Create a task inside a list	Open list → “Add task” → fill fields → Save	Task added under correct list; success message shown	✅
+Task – Update	Edit a task	Open list → Edit task → change fields → Save	Task updates; success message shown	✅
+Task – Mark Complete	Toggle completed flag	Edit task → set Completed true → Save (or checkbox, if used)	Task shows as completed (UI indicator) and persists on refresh	✅
+Task – Delete	Delete a task	Open list → Delete task → confirm	Task removed; success message shown; task URL no longer accessible (404)	✅
+Messages	Messages render consistently	Perform create/update/delete actions	Success messages appear once and do not persist incorrectly across pages	✅
+Logged-out protection	Redirect when not authenticated	Logout → visit /lists/ and a list detail URL directly	Redirected to login; no data leaked	✅
+Authorisation & Security Manual Tests (Ownership / URL manipulation)
+Security Area	Test Case	Steps	Expected Result	Pass
+List ownership	Another user cannot view your list	Login as User A → copy list URL → logout → login as User B → paste URL	404 (or equivalent “not found”), not “permission denied” with details	✅
+List ownership	Another user cannot delete your list	As User B attempt list delete URL for User A’s list	404; list remains for User A	✅
+Task ownership (nested)	Another user cannot edit your task	As User B attempt task edit URL with User A list_pk + task_pk	404; no task data exposed in form	✅
+Task ownership (nested)	Another user cannot delete your task	As User B attempt task delete URL with User A list_pk + task_pk	404; task remains for User A	✅
+Nested integrity	Task cannot be accessed outside its parent list	As correct user, try mismatched list_pk with valid task_pk	404; prevents cross-list ID enumeration	✅
+Authentication required	Protected views require login	Logout → attempt list create/task create/edit/delete URLs	Redirect to login; no server error	✅
+
+## Phase 3

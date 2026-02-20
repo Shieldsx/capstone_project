@@ -645,3 +645,57 @@ Deployed to Heroku
 Verified in production environment
 
 No regressions in authentication, authorisation, or CRUD functionality were introduced.
+
+--------------------------------
+
+## Phase 3 – UI Polish (Authenticated Screens)
+
+This phase focused on refining the user interface without introducing new features or frontend frameworks. The goal was to align the application with the predefined mobile-first wireframes while maintaining clean Django structure.
+
+Dashboard (list_index)
+
+Replaced default global navigation with a custom dashboard header.
+Implemented a consistent dark layout container.
+Added floating action button for list creation.
+Scoped Django messages to render inside the dashboard layout.
+Removed unwanted global message and auth navigation bars.
+
+List Detail (list_detail)
+
+Implemented consistent dashboard-style layout for task index within a list.
+Ensured task creation, editing, and deletion redirect back to the correct parent list.
+Added contextual success messages (“Task created”, “Task updated”, “Task deleted”) displayed only on the list detail page.
+Prevented messages from appearing on form screens.
+
+Task Form (task_form)
+
+Consolidated create and edit functionality into a single template.
+Dynamically changed headings and submit button labels based on form state (Create vs Edit).
+Scoped global navigation and messages to prevent layout conflicts.
+Applied consistent mobile-first styling using existing CSS classes.
+
+Task Delete Confirmation
+
+Implemented a styled confirmation screen aligned with the application’s visual system.
+Removed global auth navigation for consistency.
+Maintained clear destructive action UX.
+
+Message Handling Improvements
+
+Refactored message rendering using template block overrides.
+Scoped messages per screen instead of globally rendering above <main>.
+Ensured correct post-redirect message display on relevant pages only.
+
+Redirect Logic
+
+Updated get_success_url() in task views to redirect to the appropriate parent list.
+Ensured dashboard is only accessed intentionally via navigation, not automatically after task operations.
+
+Result
+
+The UI now:
+
+Matches wireframe structure
+Is mobile-first and consistent across authenticated screens
+Maintains clean separation of concerns (views control redirect + messages; templates control layout)
+Avoids duplication by using shared templates where appropriate

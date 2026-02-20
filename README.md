@@ -560,3 +560,88 @@ Ensured logout remains a secure POST request
 Corrected URL namespacing using todo:list_index
 
 This maintains secure authentication behaviour while improving navigation and usability.
+
+------------------------------------
+
+## UI Refinement & Wireframe Alignment
+
+During Phase 3, the user interface was refined to align with mobile-first wireframes while maintaining strict adherence to assessment requirements and Django best practices.
+
+Landing Page Implementation
+
+A dedicated public landing page was introduced using a HomeView:
+
+Created home.html as a standalone mobile-first landing screen
+Implemented authentication-based redirect logic:
+Unauthenticated users see the landing page
+Authenticated users are redirected to todo:list_index
+Removed navigation from unauthenticated views to match wireframes
+Ensured no JavaScript was introduced
+
+This maintains clean separation between public and authenticated user flows.
+
+URL Namespacing & Routing Correction
+
+To support clean reverse lookups and prevent routing conflicts:
+Moved HomeView to project-level urls.py
+Removed root path duplication inside todo/urls.py
+Updated redirect logic to use namespaced routes (todo:list_index)
+Resolved NoReverseMatch and root path conflicts
+
+This ensures scalable URL structure and proper namespacing.
+
+Static File Configuration
+
+A project-level static directory was implemented:
+
+static/
+    css/
+        style.css
+
+Configuration updates included:
+
+Corrected STATICFILES_DIRS setting
+Linked stylesheet in base.html using {% load static %}
+Verified static files load in both local and production (Heroku)
+
+Production static handling continues to use WhiteNoise.
+---------------
+Authentication Template Overrides
+
+Custom templates were created to override django-allauth defaults:
+
+templates/account/login.html
+templates/account/signup.html
+
+Enhancements:
+
+Mobile-first stacked form layout
+Full-width primary action buttons
+Clear secondary navigation prompts
+Styled Django messages
+Preserved secure POST authentication behaviour
+Maintained allauth default validation logic (no backend modification)
+
+All templates extend base.html and follow consistent structure.
+------------------------------
+UI Design Principles Applied
+
+Mobile-first layout
+Minimal CSS
+No frameworks
+No JavaScript enhancements
+No feature creep
+Clean heading hierarchy
+Consistent spacing and form structure
+Accessibility preserved through semantic HTML
+---------------------------
+Production Verification
+
+All UI refinements were:
+
+Tested locally
+Committed with structured Git history
+Deployed to Heroku
+Verified in production environment
+
+No regressions in authentication, authorisation, or CRUD functionality were introduced.

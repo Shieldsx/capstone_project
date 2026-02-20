@@ -1,15 +1,28 @@
 {% extends "base.html" %}
+
+{% block global_nav %}{% endblock %}
+{% block messages_block %}{% endblock %}
+
 {% block content %}
 
-<h1>Delete task</h1>
+<div class="auth">
 
-<p>Are you sure you want to delete: <strong>{{ object.title }}</strong>?</p>
+  <h1 class="auth__title">Delete Task</h1>
 
-<form method="post">
-  {% csrf_token %}
-  <button type="submit">Yes, delete</button>
-</form>
+  <div class="auth__alt">
+    Are you sure you want to delete:<br>
+    <strong>{{ object.title }}</strong>?
+  </div>
 
-<p><a href="{% url 'todo:list_detail' object.todo_list.pk %}">Cancel</a></p>
+  <form method="post" class="auth__form">
+    {% csrf_token %}
+    <button type="submit" class="btn btn--danger">Yes, delete</button>
+  </form>
+
+  <div class="auth__alt">
+    <a href="{% url 'todo:list_detail' object.todo_list.pk %}">Cancel</a>
+  </div>
+
+</div>
 
 {% endblock %}

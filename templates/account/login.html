@@ -1,9 +1,17 @@
 {% extends "base.html" %}
-
+{% block messages_block %}{% endblock %}
 {% block title %}Sign In{% endblock %}
 
 {% block content %}
 <section class="auth">
+    {% if messages %}
+  <div class="auth__messages">
+    {% for message in messages %}
+      <p class="message {{ message.tags }}">{{ message }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+
     <h1 class="auth__title">Sign In</h1>
 
     <form method="post" class="auth__form">

@@ -107,10 +107,7 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
         return context
 
     def get_success_url(self):
-        return reverse(
-            "todo:list_detail",
-            kwargs={"pk": self.kwargs["list_pk"]},
-        )
+        return reverse("todo:list_detail", kwargs={"pk": self.kwargs["list_pk"]})
     
 class TaskDeleteView(LoginRequiredMixin, DeleteView):
     model = Task
@@ -126,7 +123,4 @@ class TaskDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_success_url(self):
         messages.success(self.request, "Task deleted.")
-        return reverse(
-            "todo:list_detail",
-            kwargs={"pk": self.kwargs["list_pk"]},
-        )
+        return reverse("todo:list_detail", kwargs={"pk": self.kwargs["list_pk"]})

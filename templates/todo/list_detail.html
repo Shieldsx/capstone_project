@@ -1,26 +1,46 @@
 {% extends "base.html" %}
+
+{% block global_nav %}{% endblock %}
+{% block messages_block %}{% endblock %}
+
 {% block content %}
 
-<h1>{{ todo_list.name }}</h1>
+<div class="dashboard">
 
-<h2>Tasks</h2>
+  {% if messages %}
+    <div class="dashboard__messages">
+      {% for message in messages %}
+        <p class="message {{ message.tags }}">{{ message }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
 
-<ul>
-  {% for task in todo_list.tasks.all %}
-  <li>
-    {{ task.title }}
-    {% if task.due_date %} — due {{ task.due_date }}{% endif %}
+  <!-- Top Navigation -->
+  <div class="dashboard__nav">
+    <a href="#">Profile</a>
+    <h1>{{ todo_list.name }}</h1>
+    <a href="{% url 'todo:list_index' %}" class="btn btn--primary btn--small">Back To Home</a>
+  </div>
 
-    | <a href="{% url 'todo:task_edit' list_pk=todo_list.pk task_pk=task.pk %}">Edit</a>
-    | <a href="{% url 'todo:task_delete' list_pk=todo_list.pk task_pk=task.pk %}">Delete</a>
-  </li>
-{% empty %}
-  <li>No tasks yet.</li>
-{% endfor %}
-</ul>
+  <!-- Tasks -->
+  <div class="dashboard__lists">
+    {% for task in todo_list.tasks.all %}
+      <a href="{% url 'todo:task_edit' list_pk=todo_list.pk task_pk=task.pk %}" class="list-card">
+        {{ task.title }}
+      </a>
+    {% empty %}
+      <p class="empty-state">No tasks yet.</p>
+    {% endfor %}
+  </div>
 
-<p><a href="{% url 'todo:task_create' todo_list.pk %}">+ Add Task</a></p>
+  <!-- Floating Add Button -->
+  <a href="{% url 'todo:task_create' todo_list.pk %}" class="fab">+</a>
 
-<p><a href="{% url 'todo:list_index' %}">← Back to lists</a></p>
+  <!-- Footer -->
+  <div class="dashboard__footer">
+    © 2026 My App
+  </div>
+
+</div>
 
 {% endblock %}

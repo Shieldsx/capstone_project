@@ -43,11 +43,10 @@
     margin-bottom: 1rem;
 }
 
------------------------------------------------------------------------------
+/*-----------------------------------------------------------------------------*/
 
 /* Page baseline */
 body {
-    background: red !important;
     margin: 0;
     font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
@@ -75,6 +74,10 @@ body {
     flex-direction: column;
     gap: 1rem;
     margin-top: 2rem;
+}
+
+.auth__messages {
+    margin-top: 1rem;
 }
 
 .field label {
@@ -145,18 +148,124 @@ body {
 
 /* Messages to user (e.g. "Logged in successfully") */
 .messages {
-    padding: 0.75rem 1.25rem;
+    padding: 1rem 1.25rem;
 }
 
 .message {
     margin: 0 0 0.75rem 0;
     padding: 0.75rem 1rem;
     border-radius: 6px;
-    background: #f2f2f2;
-    color: #111;
     font-size: 0.95rem;
+    background: rgba(255, 255, 255, 0.10);
+    color: #fff;
 }
 
 .message.success {
-    background: #e7f6ea;
+    background: rgba(46, 204, 113, 0.18);
+}
+
+/* ---------------- Dashboard ---------------- */
+
+.dashboard {
+    min-height: 100vh;
+    background: #2b2b2b;
+    color: #fff;
+    padding: 1.5rem 1.25rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard__messages {
+    margin: 0 0 1rem 0;
+}
+
+.dashboard__messages .message {
+    margin: 0;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+}
+
+.dashboard__messages .message.success {
+    background: rgba(46, 204, 113, 0.18);
+}
+
+/* Top Nav */
+.dashboard__nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dashboard__nav h1 {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.dashboard__nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.btn--small {
+    width: auto;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+}
+
+/* Lists Section */
+.dashboard__lists {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.list-card {
+    display: block;
+    padding: 0.9rem 0.75rem;
+    border-bottom: 1px solid #aaa;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+/* Empty State */
+.empty-state {
+    opacity: 0.8;
+}
+
+/* Floating Action Button */
+.fab {
+    position: fixed;
+    bottom: 80px;
+    right: 24px;
+    background: #2f6df6;
+    color: #fff;
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    text-decoration: none;
+}
+
+/* Footer */
+.dashboard__footer {
+    margin-top: auto;
+    text-align: center;
+    font-size: 0.85rem;
+    opacity: 0.8;
+    padding-top: 2rem;
+}
+
+/* Delete button */
+.btn--danger {
+    background: #c0392b;
+    color: #fff;
 }

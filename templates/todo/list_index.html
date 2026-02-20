@@ -1,24 +1,48 @@
 {% extends "base.html" %}
+
+{% block global_nav %}{% endblock %}
+{% block messages_block %}{% endblock %}
+
 {% block content %}
 
-<h1>Your lists</h1>
+<div class="dashboard">
 
-<p><a href="{% url 'todo:list_create' %}">+ Create new list</a></p>
+  <!-- Top Navigation -->
+  {% if messages %}
+    <div class="dashboard__messages">
+      {% for message in messages %}
+        <p class="message {{ message.tags }}">{{ message }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
 
+  <div class="dashboard__nav">
+    <a href="#">Profile</a>
+    <h1>Created Lists</h1>
+    <a href="{% url 'account_logout' %}" class="btn btn--primary btn--small">Sign Out</a>
+  </div>
 
-{% if lists %}
-  <ul>
-    {% for l in lists %}
-  <li>
-    <a href="{% url 'todo:list_detail' l.pk %}">
-      {{ l.name }}
-    </a>
-  </li>
-{% endfor %}
+  <!-- Lists -->
+  <div class="dashboard__lists">
+    {% if lists %}
+      {% for l in lists %}
+        <a href="{% url 'todo:list_detail' l.pk %}" class="list-card">
+          {{ l.name }}
+        </a>
+      {% endfor %}
+    {% else %}
+      <p class="empty-state">No lists yet.</p>
+    {% endif %}
+  </div>
 
-  </ul>
-{% else %}
-  <p>No lists yet.</p>
-{% endif %}
+  <!-- Floating Add Button -->
+  <a href="{% url 'todo:list_create' %}" class="fab">+</a>
+
+  <!-- Footer -->
+  <div class="dashboard__footer">
+    © 2026 My App
+  </div>
+
+</div>
 
 {% endblock %}

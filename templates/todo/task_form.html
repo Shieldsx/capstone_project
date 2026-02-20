@@ -1,16 +1,51 @@
 {% extends "base.html" %}
 
-{% block content %}
-  <h1>New Task</h1>
-  <p>List: {{ todo_list.name }}</p>
+{% block global_nav %}{% endblock %}
+{% block messages_block %}{% endblock %}
 
-  <form method="post">
+{% block content %}
+
+<div class="auth">
+
+  <h1 class="auth__title">
+    {% if form.instance.pk %}
+      Edit Task
+    {% else %}
+      New Task
+    {% endif %}
+  </h1>
+
+  <div class="auth__alt" style="margin-top: 1rem;">
+    List: <strong>{{ todo_list.name }}</strong>
+  </div>
+
+  <form method="post" class="auth__form">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Create Task</button>
+
+    <div class="field">
+      {{ form.as_p }}
+    </div>
+
+    <button type="submit" class="btn btn--primary">
+      {% if form.instance.pk %}
+        Save Changes
+      {% else %}
+        Create Task
+      {% endif %}
+    </button>
   </form>
 
-  <p>
+  <div class="auth__alt">
     <a href="{% url 'todo:list_detail' todo_list.pk %}">Back to list</a>
-  </p>
+
+    {% if form.instance.pk %}
+      <br><br>
+      <a href="{% url 'todo:task_delete' list_pk=todo_list.pk task_pk=form.instance.pk %}">
+        Delete task
+      </a>
+    {% endif %}
+  </div>
+
+</div>
+
 {% endblock %}

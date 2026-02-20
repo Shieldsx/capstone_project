@@ -541,3 +541,22 @@ Nested route protection
 No public data endpoints
 
 All authorisation behaviour was manually tested in both development and production environments.
+
+------------------
+
+## Template Overrides & UX Improvements
+
+The default django-allauth logout confirmation template was overridden to improve user experience.
+
+A custom template was created at:
+
+templates/account/logout.html
+
+Changes implemented:
+
+Integrated logout confirmation into the main site layout using base.html
+Added a “Cancel” option to prevent forced logout
+Ensured logout remains a secure POST request
+Corrected URL namespacing using todo:list_index
+
+This maintains secure authentication behaviour while improving navigation and usability.

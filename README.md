@@ -755,3 +755,33 @@ Back | Title | Edit/Delete
 Global authentication navigation remains available only where appropriate.
 
 This improves layout clarity and reduces visual clutter across the application.
+
+-----------------------------------
+
+Task Completion UX Refinement
+
+The task completion flow was adjusted to improve usability and align with expected task lifecycle behaviour.
+
+Changes Implemented
+
+Removed the completed checkbox from the Task Create view.
+Added the completed checkbox exclusively to the Task Edit view.
+Ensured completed tasks:
+Automatically move to the bottom of the list.
+Remain visible until manually deleted.
+Render with reduced opacity and strikethrough styling for visual distinction.
+
+Rationale
+
+This change reflects a more intuitive workflow:
+
+A task should not typically be marked complete at the moment of creation.
+Completion is a state change that occurs during task editing.
+Completed tasks remain accessible for reference rather than being automatically removed.
+
+Technical Notes
+
+No database changes were required.
+Model-level ordering (ordering = ["completed", "-updated_on", "-created_on"]) ensures incomplete tasks appear first.
+Styling was implemented using conditional template classes and minimal CSS.
+No JavaScript was introduced.

@@ -23,8 +23,32 @@
     {% csrf_token %}
 
     <div class="field">
-      {{ form.as_p }}
+  <p>
+    {{ form.title.label_tag }}
+    {{ form.title }}
+    {% if form.title.errors %}{{ form.title.errors }}{% endif %}
+  </p>
+
+  <p>
+    {{ form.description.label_tag }}
+    {{ form.description }}
+    {% if form.description.errors %}{{ form.description.errors }}{% endif %}
+  </p>
+
+  <p>
+    {{ form.due_date.label_tag }}
+    {{ form.due_date }}
+    {% if form.due_date.errors %}{{ form.due_date.errors }}{% endif %}
+  </p>
+
+  {% if form.completed %}
+    <div class="completed-field">
+      {{ form.completed.label_tag }}
+      {{ form.completed }}
+      {% if form.completed.errors %}{{ form.completed.errors }}{% endif %}
     </div>
+  {% endif %}
+</div>
 
     <button type="submit" class="btn btn--primary">
       {% if form.instance.pk %}

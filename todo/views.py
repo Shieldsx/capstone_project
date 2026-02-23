@@ -99,7 +99,7 @@ class TodoListDeleteView(LoginRequiredMixin, DeleteView):
 
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
-    fields = ["title", "description", "completed", "due_date"]
+    fields = ["title", "description", "due_date"] # removed "completed"
     template_name = "todo/task_form.html"
     login_url = "/accounts/login/"  # optional, but explicit
 
@@ -127,7 +127,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
 class TaskUpdateView(LoginRequiredMixin, UpdateView):
     model = Task
     template_name = "todo/task_form.html"
-    fields = ["title", "description", "due_date"]
+    fields = ["title", "description", "due_date", "completed"]  # added completed
 
     def form_valid(self, form):
         messages.success(self.request, "Task updated.")

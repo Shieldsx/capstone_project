@@ -320,3 +320,45 @@ body {
     gap:0.75rem;
     margin-bottom:1.75rem;
 }
+
+/* Task completed state */
+.task--completed {
+  opacity: 0.55;
+}
+
+.task--completed .task__title {
+  text-decoration: line-through;
+}
+
+.list-card--completed {
+  opacity: 0.55;
+  text-decoration: line-through;
+}
+
+/* Center the description textarea neatly */
+.field textarea {
+  display: block;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Completed checkbox row */
+.completed-field {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.completed-field label {
+  font-size: 18px;
+  margin: 0; /* removes default label spacing weirdness */
+}
+
+/* Make the checkbox bigger and easier to tap */
+.completed-field input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+}

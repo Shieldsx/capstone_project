@@ -703,3 +703,55 @@ Avoids duplication by using shared templates where appropriate
 More UI Polish
 
 Refactored base template to support scoped navigation and message block overrides. This allows dashboard-style pages to remove global authentication navigation and control message placement per view, improving layout consistency and UI clarity.
+
+Profile Management & Account Controls
+
+A dedicated profile management section was implemented to provide controlled user account editing without relying on the global navigation bar.
+
+Profile Hub
+
+A new authenticated route (/profile/) provides an account management hub where users can:
+
+View current username
+View current email
+Access password management
+Navigate back to dashboard
+
+The global navigation bar is overridden on profile-related pages to maintain UI consistency and match wireframe specifications.
+Username Update (Custom Implementation)
+
+A custom UsernameUpdateView and UsernameForm were created to allow secure username updates.
+
+Security considerations:
+
+Username uniqueness validation
+Ownership enforced via LoginRequiredMixin
+Success feedback via Django messages framework
+Redirect back to profile upon success
+
+Email & Password Updates
+
+Django-allauth views were retained for:
+
+Email updates
+Password changes
+
+However, default allauth templates were overridden to:
+
+Match the dark mobile-first UI
+Remove global navigation
+Provide consistent back navigation to the profile hub
+-Maintain scoped message rendering
+
+This preserves Django-allauth’s secure backend logic while aligning the frontend with the application’s design system.
+
+Navigation Refinement
+
+“Profile” link now exists only on the dashboard.
+List detail pages follow the pattern:
+
+Back | Title | Edit/Delete
+
+Global authentication navigation remains available only where appropriate.
+
+This improves layout clarity and reduces visual clutter across the application.

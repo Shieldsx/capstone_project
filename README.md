@@ -699,3 +699,7 @@ Matches wireframe structure
 Is mobile-first and consistent across authenticated screens
 Maintains clean separation of concerns (views control redirect + messages; templates control layout)
 Avoids duplication by using shared templates where appropriate
+
+More UI Polish
+
+Refactored base template to support scoped navigation and message block overrides. This allows dashboard-style pages to remove global authentication navigation and control message placement per view, improving layout consistency and UI clarity.

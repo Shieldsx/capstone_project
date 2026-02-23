@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}To-Do App{% endblock %}</title>
+
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
@@ -25,13 +26,15 @@
 {% endif %}
 
 {% block messages_block %}
-{% if messages %}
-<div class="messages">
-    {% for message in messages %}
-        <p class="message {{ message.tags }}">{{ message }}</p>
-    {% endfor %}
-</div>
-{% endif %}
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <p class="message {{ message.tags }}">
+                    {{ message }}
+                </p>
+            {% endfor %}
+        </div>
+    {% endif %}
 {% endblock %}
 
 <main>

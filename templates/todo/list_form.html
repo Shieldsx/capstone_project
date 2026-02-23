@@ -1,14 +1,29 @@
 {% extends "base.html" %}
+
+{% block global_nav %}{% endblock %}
+{% block messages_block %}{% endblock %}
+
 {% block content %}
+<div class="dashboard">
 
-<h1>Create list</h1>
+  <div class="dashboard__nav">
+    <a href="{% url 'todo:list_index' %}">Back</a>
+    <h1>Create list</h1>
+    <span></span>
+  </div>
 
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Create</button>
-</form>
+  <div class="dashboard__lists dashboard__lists--form">
+    <form method="post" class="dashboard__form">
+      {% csrf_token %}
 
-<p><a href="{% url 'todo:list_index' %}">Back</a></p>
+      <div class="field">
+        {{ form.name.label_tag }}
+        {{ form.name }}
+      </div>
 
+      <button type="submit" class="btn btn--primary">Create</button>
+    </form>
+  </div>
+
+</div>
 {% endblock %}

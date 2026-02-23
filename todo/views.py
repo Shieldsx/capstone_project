@@ -1,13 +1,19 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404
-from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
-from django.urls import reverse
-from django.views.generic import TemplateView
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse, reverse_lazy
+from django.views.generic import (
+    ListView,
+    CreateView,
+    DetailView,
+    UpdateView,
+    DeleteView,
+    TemplateView,
+    FormView,
+)
+
 from .models import TodoList, Task
-from .models import TodoList
+from django import forms
 
 
 class HomeView(TemplateView):
@@ -53,7 +59,43 @@ class TodoListDetailView(LoginRequiredMixin, DetailView):
             pk=self.kwargs["pk"],
             owner=self.request.user,
         )
-    
+
+
+class TodoListUpdateView(LoginRequiredMixin, UpdateView):
+    model = TodoList
+    template_name = "todo/list_form.html"
+    fields = ["name"]
+    success_url = reverse_lazy("todo:list_index")
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            TodoList,
+            pk=self.kwargs["pk"],
+            owner=self.request.user,
+        )
+
+    def form_valid(self, form):
+        messages.success(self.request, "List updated.")
+        return super().form_valid(form)
+
+
+class TodoListDeleteView(LoginRequiredMixin, DeleteView):
+    model = TodoList
+    template_name = "todo/list_confirm_delete.html"
+    success_url = reverse_lazy("todo:list_index")
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            TodoList,
+            pk=self.kwargs["pk"],
+            owner=self.request.user,
+        )
+
+    def form_valid(self, form):
+        messages.success(self.request, "List deleted.")
+        return super().form_valid(form)
+
+
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
     fields = ["title", "description", "completed", "due_date"]
@@ -79,6 +121,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse("todo:list_detail", kwargs={"pk": self.kwargs["pk"]})
+
 
 class TaskUpdateView(LoginRequiredMixin, UpdateView):
     model = Task
@@ -108,7 +151,8 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse("todo:list_detail", kwargs={"pk": self.kwargs["list_pk"]})
-    
+
+
 class TaskDeleteView(LoginRequiredMixin, DeleteView):
     model = Task
     template_name = "todo/task_confirm_delete.html"
@@ -124,3 +168,41 @@ class TaskDeleteView(LoginRequiredMixin, DeleteView):
     def get_success_url(self):
         messages.success(self.request, "Task deleted.")
         return reverse("todo:list_detail", kwargs={"pk": self.kwargs["list_pk"]})
+    
+class ProfileView(LoginRequiredMixin, TemplateView):
+    template_name = "todo/profile.html"
+
+
+class UsernameForm(forms.Form):
+    username = forms.CharField(max_length=150)
+
+    def __init__(self, *args, user=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.user = user
+        if user:
+            self.fields["username"].initial = user.username
+
+    def clean_username(self):
+        new_username = self.cleaned_data["username"].strip()
+        User = get_user_model()
+
+        # Only block if another user already has it
+        if User.objects.filter(username__iexact=new_username).exclude(pk=self.user.pk).exists():
+            raise forms.ValidationError("That username is already taken.")
+        return new_username
+
+
+class UsernameUpdateView(LoginRequiredMixin, FormView):
+    template_name = "todo/username_form.html"
+    form_class = UsernameForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
+
+    def form_valid(self, form):
+        self.request.user.username = form.cleaned_data["username"]
+        self.request.user.save()
+        messages.success(self.request, "Username updated.")
+        return redirect("todo:profile")

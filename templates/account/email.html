@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block global_nav %}{% endblock %}
+{% block messages_block %}{% endblock %}
+
+{% block content %}
+<div class="auth">
+
+  <h1 class="auth__title">Update Email</h1>
+
+  <form method="post" action="{% url 'account_email' %}" class="auth__form">
+    {% csrf_token %}
+
+    {# Current email list (allauth supports multiple, but this still works for 1) #}
+    {% if emailaddresses %}
+      <div class="auth__alt" style="text-align:left;">
+        <strong>Current email(s)</strong><br>
+        {% for emailaddress in emailaddresses %}
+          {{ emailaddress.email }}
+          {% if emailaddress.verified %}(verified){% else %}(unverified){% endif %}
+          {% if emailaddress.primary %} — primary{% endif %}
+          <br>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="field">
+      <label for="id_email">Enter new email address</label>
+      <input type="email" name="email" id="id_email" required>
+    </div>
+
+    <button type="submit" name="action_add" class="btn btn--primary">
+      Save Changes
+    </button>
+  </form>
+
+  {# scoped messages on this page #}
+  {% if messages %}
+    <div class="auth__messages">
+      {% for message in messages %}
+        <p class="message {{ message.tags }}">{{ message }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <div class="auth__alt">
+    <a href="{% url 'todo:profile' %}">Back</a>
+  </div>
+
+  <div class="auth__footer">© {% now "Y" %} My App</div>
+
+</div>
+{% endblock %}

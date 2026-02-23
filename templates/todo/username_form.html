@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block global_nav %}{% endblock %}
+{% block messages_block %}{% endblock %}
+
+{% block content %}
+<div class="auth">
+
+  <h1 class="auth__title">Edit Username</h1>
+
+  <form method="post" class="auth__form">
+    {% csrf_token %}
+
+    <div class="field">
+      <label for="{{ form.username.id_for_label }}">
+        Enter new username
+      </label>
+      {{ form.username }}
+    </div>
+
+    {% if form.username.errors %}
+      <div class="auth__messages">
+        {% for error in form.username.errors %}
+          <p class="message">{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <button type="submit" class="btn btn--primary">
+      Save Changes
+    </button>
+
+  </form>
+
+  <div class="auth__alt">
+    <a href="{% url 'todo:profile' %}" class="btn">
+      Back
+    </a>
+  </div>
+
+  <div class="auth__footer">
+    © {% now "Y" %} My App
+  </div>
+
+</div>
+{% endblock %}

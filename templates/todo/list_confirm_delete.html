@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block global_nav %}{% endblock %}
+{% block messages_block %}{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+
+  <div class="dashboard__nav">
+    <a href="{% url 'todo:list_index' %}">Cancel</a>
+    <h1>Delete list</h1>
+    <span></span>
+  </div>
+
+  <div class="dashboard__lists dashboard__lists--form">
+    <p>Are you sure you want to delete: <strong>{{ object.name }}</strong>?</p>
+
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn--danger">Yes, delete</button>
+    </form>
+  </div>
+
+</div>
+{% endblock %}

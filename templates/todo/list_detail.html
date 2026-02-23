@@ -16,11 +16,16 @@
   {% endif %}
 
   <!-- Top Navigation -->
-  <div class="dashboard__nav">
-    <a href="#">Profile</a>
-    <h1>{{ todo_list.name }}</h1>
-    <a href="{% url 'todo:list_index' %}" class="btn btn--primary btn--small">Back To Home</a>
+<div class="dashboard__nav">
+  <a href="{% url 'todo:list_index' %}">Back</a>
+
+  <h1>{{ todo_list.name }}</h1>
+
+  <div class="nav-actions">
+    <a href="{% url 'todo:list_update' todo_list.pk %}" class="btn btn--small">Edit</a>
+    <a href="{% url 'todo:list_delete' todo_list.pk %}" class="btn btn--danger btn--small">Delete</a>
   </div>
+</div>
 
   <!-- Tasks -->
   <div class="dashboard__lists">

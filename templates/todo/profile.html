@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block global_nav %}{% endblock %}
+{% block messages_block %}{% endblock %}
+
+{% block content %}
+<div class="auth">
+
+  <h1 class="auth__title">Edit Profile</h1>
+
+  <div class="auth__form">
+
+    <!-- Username Section -->
+    <div class="profile-section">
+      <label>Username</label>
+      <input type="text" value="{{ request.user.username }}" disabled>
+      <a class="btn btn--primary" href="{% url 'todo:profile_username' %}">
+        Edit Username
+      </a>
+    </div>
+
+    <!-- Email Section -->
+    <div class="profile-section">
+      <label>Email</label>
+      <input type="text" value="{{ request.user.email }}" disabled>
+      <a class="btn btn--primary" href="{% url 'account_email' %}">
+        Update Email
+      </a>
+    </div>
+
+    <!-- Password Section -->
+    <div class="profile-section">
+      <label>Password</label>
+      <input type="password" value="************" disabled>
+      <a class="btn btn--primary" href="{% url 'account_change_password' %}">
+        Update Password
+      </a>
+    </div>
+
+    <!-- Scoped Success Messages -->
+    {% if messages %}
+      <div class="auth__messages">
+        {% for message in messages %}
+          <p class="message {{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+  </div>
+
+  <div class="auth__alt">
+    <a href="{% url 'todo:list_index' %}">Back to Home</a>
+  </div>
+
+  <div class="auth__footer">
+    © {% now "Y" %} My App
+  </div>
+
+</div>
+{% endblock %}

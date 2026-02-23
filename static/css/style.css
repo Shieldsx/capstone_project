@@ -135,6 +135,12 @@ body {
     padding-bottom: 0.75rem;
 }
 
+.auth__alt .btn{
+    width:100%;
+    background:#e0e0e0;
+    color:#222;
+}
+
 /* Remember me checkbox */
 .field--inline {
     display: flex;
@@ -214,6 +220,12 @@ body {
     width: auto;
     padding: 0.5rem 0.75rem;
     font-size: 0.85rem;
+}
+
+.nav-actions{
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
 }
 
 /* Lists Section */
@@ -299,4 +311,12 @@ body {
     border: 1px solid #cfcfcf;
     background: #fff;
     color: #111;
+}
+
+/* Profile section */
+.profile-section{
+    display:flex;
+    flex-direction:column;
+    gap:0.75rem;
+    margin-bottom:1.75rem;
 }

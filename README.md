@@ -810,3 +810,48 @@ No database changes were required.
 Model-level ordering (ordering = ["completed", "-updated_on", "-created_on"]) ensures incomplete tasks appear first.
 Styling was implemented using conditional template classes and minimal CSS.
 No JavaScript was introduced.
+
+-----------------------------
+
+Responsive Layout Refinement (Desktop Constraint)
+
+To improve usability and visual balance on larger screens, a responsive width constraint was implemented.
+
+Changes Implemented
+
+Introduced a media query at min-width: 768px.
+Applied a max-width constraint to:
+
+.auth
+.dashboard
+.landing-container
+
+Centered layouts using margin: 0 auto.
+Preserved full-width layout on mobile devices.
+
+Rationale
+
+The application was built mobile-first.
+However, on desktop screens the layout appeared overly stretched horizontally.
+
+Applying a controlled max-width:
+
+Improves readability.
+Prevents UI elements from spanning excessively wide.
+Maintains a professional, app-like appearance.
+Keeps mobile behaviour unchanged.
+
+Technical Implementation
+
+Implemented via CSS media query only:
+
+@media (min-width: 768px) {
+  .auth,
+  .dashboard,
+  .landing-container {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+}
+
+No template changes were required.

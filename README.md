@@ -3,6 +3,31 @@
 This is my Full Stack Django capstone project.
 It is a minimal, mobile-first to-do list application built using Django and PostgreSQL, deployed on Heroku.
 
+Instructions:
+
+1) Register with username, email and password.
+2) Create a list. 
+3) Create a task within that list.
+4) Done.
+
+Lists and tasks can be edited and deleted.
+
+## Admin Panel
+
+The Django admin interface is enabled at:
+
+`/admin/`
+
+It allows administrative management of:
+
+- Users
+- TodoLists
+- Tasks
+
+Admin credentials are provided separately to the assessor for security reasons.
+
+## Planning and process
+
 Deployment-First Development Strategy
 
 The deployment pipeline was configured before development began to ensure:

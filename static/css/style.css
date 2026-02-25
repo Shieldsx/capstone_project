@@ -29,8 +29,9 @@
 }
 
 .btn-secondary {
-  background-color: #e0e0e0;
-  color: #222;
+  background: #2b2b2b;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .landing-footer {
@@ -41,8 +42,10 @@
 /* ---------------- Base ---------------- */
 
 body {
-  margin: 0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    margin: 0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    background: #2b2b2b;
+    color: #fff;
 }
 
 /* ---------------- Global UI Elements ---------------- */
@@ -352,4 +355,16 @@ select:-webkit-autofill {
   -webkit-text-fill-color: #fff;
   transition: background-color 9999s ease-in-out 0s;
   box-shadow: 0 0 0px 1000px #2b2b2b inset;
+}
+
+/* Desktop width constraint */
+@media (min-width: 768px) {
+
+  .auth,
+  .dashboard,
+  .landing-container {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
 }

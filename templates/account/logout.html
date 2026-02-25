@@ -1,15 +1,27 @@
 {% extends "base.html" %}
 
-{% block content %}
-  <h1>Sign Out</h1>
-  <p>Are you sure you want to sign out?</p>
+{% block global_nav %}{% endblock %}
+{% block messages_block %}{% endblock %}
+{% block title %}Sign Out{% endblock %}
 
-  <form method="post" action="{% url 'account_logout' %}">
+{% block content %}
+<section class="auth">
+
+  <h1 class="auth__title">Sign Out</h1>
+
+  <div class="auth__alt" style="margin-top: 1rem;">
+    Are you sure you want to sign out?
+  </div>
+
+  <form method="post" action="{% url 'account_logout' %}" class="auth__form">
     {% csrf_token %}
-    <button type="submit">Sign Out</button>
+    <button type="submit" class="btn btn--primary">Sign Out</button>
   </form>
 
-  <p style="margin-top: 1rem;">
+  <div class="auth__alt">
     <a href="{% url 'todo:list_index' %}">Cancel</a>
-  </p>
+  </div>
+
+  <footer class="auth__footer">© 2026 Capstone To-do List</footer>
+</section>
 {% endblock %}

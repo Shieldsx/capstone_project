@@ -215,6 +215,8 @@ Completed tasks:
   - Styled with strikethrough + reduced opacity
   - Remain visible until manually deleted
 
+-----------------------------------
+-----------------------------------
 
 Testing
 
@@ -230,7 +232,38 @@ Verified:
   - DEBUG=False confirmed
 All tests passed.
 
+### CRUD Manual Tests (Lists + Tasks)
+
+| Feature | Test Case | Steps | Expected Result | Result |
+|---|---|---|---|---|
+| List | Create list | Login → New List → Enter name → Save | List created, appears in dashboard, success message shown | Pass |
+| List | View list detail | From dashboard click list | List detail loads, only that list’s tasks displayed | Pass |
+| List | Edit list | Open list → Edit → Save | List updates correctly, success message shown | Pass |
+| List | Delete list | Open list → Delete → Confirm | List removed, redirected, URL returns 404 after deletion | Pass |
+| Task | Create task (nested) | Open list → Add Task → Fill form → Save | Task created under correct list, success message shown | Pass |
+| Task | Edit task | Open list → Edit task → Save | Task updates and persists on refresh | Pass |
+| Task | Mark complete | Edit task → Set completed = True → Save | Task marked complete, appears below active tasks | Pass |
+| Task | Delete task | Open list → Delete task → Confirm | Task removed, success message shown, URL returns 404 | Pass |
+| UX | Message display | Perform create/update/delete | Success message displays once after redirect, no duplicates | Pass |
+
 -----------------------------------------
+
+### Security & Authorisation Manual Tests
+
+| Area | Test Case | Steps | Expected Result | Result |
+|---|---|---|---|---|
+| Authentication | Protected routes require login | Logout → Visit /lists/ or edit/delete URLs directly | Redirected to login, no data exposed | Pass |
+| List Ownership | User B cannot view User A list | User A create list → Copy URL → Login as User B → Paste URL | 404 Not Found | Pass |
+| List Ownership | User B cannot delete User A list | Login as User B → Attempt delete URL for User A list | 404 Not Found, list remains intact | Pass |
+| Task Ownership | User B cannot edit User A task | Login as User B → Attempt nested task edit URL | 404 Not Found | Pass |
+| Task Ownership | User B cannot delete User A task | Login as User B → Attempt nested task delete URL | 404 Not Found | Pass |
+| Nested Integrity | Task cannot be accessed under wrong parent list | Use valid task_pk with incorrect list_pk | 404 Not Found | Pass |
+| Foreign Key Protection | Task cannot be reassigned via form tampering | Attempt POST manipulation of todo_list field | Task remains bound to owned parent list | Pass |
+| ID Enumeration | Direct object guessing | Manually increment list/task IDs in URL | 404 returned, no object existence disclosed | Pass |
+
+---------------------------------------
+
+------------------------------------
 
 Admin Panel
 
@@ -273,4 +306,42 @@ Development Phases
 - Phase 1 – Authentication & deployment
 - Phase 2 – Custom models + ownership + CRUD
 - Phase 3 – UI polish, testing, README finalisation
+
+------------------------------------------------------
+
+AI Usage Disclosure
+
+AI assistance was used in the following areas:
+  - Supporting project planning and structuring the development process to align with early deployment and continuous testing strategy.
+  - Providing limited guidance on specific Django configuration and implementation details.
+  - Generating initial CSS scaffolding to help match predefined wireframes.
+
+All core architectural decisions, model design, authentication logic, ownership enforcement, testing, and deployment configuration were implemented and validated manually.
+
+-----------------------------------------------------------------------
+
+Production DEBUG Verification (Heroku)
+
+Production configuration was verified to ensure DEBUG=False.
+
+This was confirmed by:
+
+1. Checking Django settings directly in the Heroku environment:
+
+`heroku run python manage.py shell -a capstone-todo-f`
+
+```python
+from django.conf import settings
+settings.DEBUG
+```
+
+Result:
+
+```python
+False
+```
+
+2. Visiting a non-existent production URL to confirm no debug traceback is exposed.
+
+This verifies that the application is running securely in production mode.
 

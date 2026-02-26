@@ -99,9 +99,9 @@ class TodoListDeleteView(LoginRequiredMixin, DeleteView):
 
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
-    fields = ["title", "description", "due_date"] # removed "completed"
+    fields = ["title", "description", "due_date"] 
     template_name = "todo/task_form.html"
-    login_url = "/accounts/login/"  # optional, but explicit
+    login_url = "/accounts/login/"  
 
     def get_todo_list(self):
         return get_object_or_404(
@@ -127,7 +127,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
 class TaskUpdateView(LoginRequiredMixin, UpdateView):
     model = Task
     template_name = "todo/task_form.html"
-    fields = ["title", "description", "due_date", "completed"]  # added completed
+    fields = ["title", "description", "due_date", "completed"] 
 
     def form_valid(self, form):
         messages.success(self.request, "Task updated.")
@@ -187,7 +187,7 @@ class UsernameForm(forms.Form):
         new_username = self.cleaned_data["username"].strip()
         User = get_user_model()
 
-        # Only block if another user already has it
+        
         if User.objects.filter(username__iexact=new_username).exclude(pk=self.user.pk).exists():
             raise forms.ValidationError("That username is already taken.")
         return new_username

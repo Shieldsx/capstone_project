@@ -43,6 +43,10 @@ The application enforces strict authentication and object-level ownership.
 This ensured continuous deployment and avoided late-stage configuration issues.
 
 ------------------------------------------------------------
+## Kanban Project Board (18/19 complete)
+
+![Project Board](images/kanban.png)
+------------------------------------------------------------
 ## Wireframes
 
 ![Landing Page](images/1.png), ![Sign-in page](images/2.png), ![Register Page](images/3.png), ![Dashboard Page](images/4.png), ![Edit Profile Page](images/5.png), ![Edit Profile Page 2](images/9.png), ![Edit Profile Page 3](images/ten.png), ![Edit Profile Page 4](images/ten2.png), 
@@ -142,7 +146,7 @@ Implemented Controls
   - Querysets filtered by owner=request.user
   - Nested task routes:
 
- `/`lists/<list_pk>/tasks/<task_pk>/...`
+ `/lists/<list_pk>/tasks/<task_pk>/...`
 
   - get_object_or_404(..., owner=request.user)
   - 404 masking (prevents ID enumeration)

@@ -9,6 +9,8 @@ A minimal, mobile-first Full Stack Django to-do list application built in VS Cod
   - WhiteNoise + Gunicorn
   - Deployed to Heroku
 
+Link to app (ignore security error message): https://capstone-todo-f-1ceb56fe0954.herokuapp.com/
+
 ------------------------------------
 
 Live Application
@@ -44,6 +46,8 @@ This ensured continuous deployment and avoided late-stage configuration issues.
 
 ------------------------------------------------------------
 ## Kanban Project Board (18/19 complete)
+
+Link to project board: https://github.com/users/Shieldsx/projects/7
 
 ![Project Board](images/kanban.png)
 ------------------------------------------------------------
@@ -262,8 +266,15 @@ All tests passed.
 | ID Enumeration | Direct object guessing | Manually increment list/task IDs in URL | 404 returned, no object existence disclosed | Pass |
 
 ---------------------------------------
-
 ------------------------------------
+
+## Lighthouse Testing Results (Mobile version)
+
+![Navigation](images/navigation.png)
+![Timespan](images/timespan.png)
+![Snapshot](images/snapshot.png)
+
+--------------------------------------------
 
 Admin Panel
 

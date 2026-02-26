@@ -34,12 +34,20 @@ The application enforces strict authentication and object-level ownership.
 ------------------------------
 
 - Agile Planning (LO1)
+  - Wireframes
   - GitHub Project (Kanban board)
   - Epics + User Stories created as Issues
   - Structured labels (Epic / Type / Priority)
   - Deployment-first development strategy
 
 This ensured continuous deployment and avoided late-stage configuration issues.
+
+------------------------------------------------------------
+## Wireframes
+
+![Landing Page](images/1.png), ![Sign-in page](images/2.png), ![Register Page](images/3.png), ![Dashboard Page](images/4.png), ![Edit Profile Page](images/5.png), ![Edit Profile Page 2](images/9.png), ![Edit Profile Page 3](images/ten.png), ![Edit Profile Page 4](images/ten2.png), 
+
+----------------------------------------------------
 
 Deployment Architecture
 

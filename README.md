@@ -2,6 +2,7 @@
 Capstone Project – To-Do List Application
 
 A minimal, mobile-first Full Stack Django to-do list application built in VS Code, using:
+
   - Django (CBVs)
   - PostgreSQL (production – Heroku)
   - SQLite (local development)
@@ -11,7 +12,7 @@ A minimal, mobile-first Full Stack Django to-do list application built in VS Cod
 
 Link to app (ignore security error message): https://capstone-todo-f-1ceb56fe0954.herokuapp.com/
 
-------------------------------------
+-------------------------------------
 
 Live Application
 

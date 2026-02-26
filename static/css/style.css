@@ -357,6 +357,7 @@ select:-webkit-autofill {
   box-shadow: 0 0 0px 1000px #2b2b2b inset;
 }
 
+
 /* Desktop width constraint */
 @media (min-width: 768px) {
 

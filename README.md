@@ -1,857 +1,394 @@
-# Capstone Project – To-Do List Application
 
-This is my Full Stack Django capstone project.
-It is a minimal, mobile-first to-do list application built using Django and PostgreSQL, deployed on Heroku.
-
-Instructions:
-
-1) Register with username, email and password.
-2) Create a list. 
-3) Create a task within that list.
-4) Done.
-
-Lists and tasks can be edited and deleted.
-
-## Admin Panel
-
-The Django admin interface is enabled at:
-
-`/admin/`
-
-It allows administrative management of:
-
-- Users
-- TodoLists
-- Tasks
-
-Admin credentials are provided separately to the assessor for security reasons.
-
-## Planning and process
-
-Deployment-First Development Strategy
-
-The deployment pipeline was configured before development began to ensure:
-
-Continuous deployment
-
-Early detection of configuration issues
-
-Production-ready environment setup from the start
-
-Avoidance of late-stage deployment failures
-
-This approach aligns with Agile principles and project planning best practices.
-
-Setup Instructions
-1. Repository & Project Initialisation
-
-Created a GitHub repository named capstone_project
-
-Connected the local workspace to the GitHub repository
-
-Created a GitHub Project (Kanban board)
-
-Added all Epics and User Stories as GitHub Issues
-
-Applied structured labels:
-
-Epic labels
-
-Type labels
-
-Priority labels
-
-This satisfies Agile planning requirements (LO1).
-
-2. Heroku Setup (Early Deployment Strategy)
-
-Installed the Heroku CLI
-
-Logged in via terminal
-
-Created Heroku app:
-
-capstone-todo-f
+Capstone Project – To-Do List Application
+A minimal, mobile-first Full Stack Django to-do list application built in VS Code, using:
+Django (CBVs)
 
 
-Linked local repository to Heroku remote
-
-Set initial environment variables in Heroku:
-
-SECRET_KEY
-
-DEBUG=False
-
-This ensures production configuration exists before application development begins.
-
-3. Virtual Environment & Dependencies
-
-Created Python virtual environment:
-
-python -m venv .venv
+PostgreSQL (production – Heroku)
 
 
-Activated environment
+SQLite (local development)
 
-Installed required packages:
 
-Django
+django-allauth (authentication)
+
+
+WhiteNoise + Gunicorn
+
+
+Deployed to Heroku
+
+
+
+Live Application
+Deployed on Heroku.
+ Admin panel available at:
+/admin/
+(Admin credentials provided separately.)
+
+Project Overview
+Users can:
+Register (username + email + password)
+
+
+Create lists
+
+
+Create tasks inside lists
+
+
+Edit / delete lists and tasks
+
+
+Mark tasks as completed
+
+
+The application enforces strict authentication and object-level ownership.
+
+Agile Planning (LO1)
+GitHub Project (Kanban board)
+
+
+Epics + User Stories created as Issues
+
+
+Structured labels (Epic / Type / Priority)
+
+
+Deployment-first development strategy
+
+
+This ensured continuous deployment and avoided late-stage configuration issues.
+
+Deployment Architecture
+Production Stack
+Heroku
+
 
 Gunicorn
 
-dj-database-url
-
-psycopg2-binary
 
 WhiteNoise
 
-django-allauth
 
-Generated requirements.txt using:
-
-pip freeze > requirements.txt
+Heroku Postgres (essential-0 plan)
 
 
-This ensures dependency consistency between local and production environments.
-
-4. Runtime Configuration
-
-Created runtime.txt
-
-Specified Python version for Heroku compatibility
-
-This ensures consistent Python runtime between environments.
-
-5. Django Project Scaffold
-
-Created Django project:
-
-django-admin startproject todo_project .
-
-
-Created Django app:
-
-python manage.py startapp todo
-
-
-Created Procfile for Heroku deployment:
-
-web: gunicorn todo_project.wsgi
-
-
-Note: The Procfile required correct capitalisation (Procfile) to be recognised by Heroku.
-
-6. Static File Configuration for Production
-
-To resolve Heroku deployment errors:
-
-Added STATIC_ROOT in settings
-
-Configured WhiteNoise middleware
-
-Added production static storage configuration
-
-Created root-level static/ directory
-
-This resolved the collectstatic build failure.
-
-7. Production Security Configuration
-
-Updated ALLOWED_HOSTS to include Heroku domain
-
-Converted DEBUG to environment-based configuration:
-
+Key Production Config
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-
-This resolved the DisallowedHost error and ensures secure production settings.
-
-Current Deployment Status
-
-Web dyno running successfully
-
-Gunicorn serving Django
-
-Application accessible via Heroku URL
-
-Initial placeholder route returning HTTP response.
-
-----------------
-
-## Authentication Configuration (django-allauth)
-
-Django-allauth was installed and configured to handle user authentication.
-
-The following configuration steps were completed:
-
-- Added `django.contrib.sites` to INSTALLED_APPS
-- Added:
-    - allauth
-    - allauth.account
-    - allauth.socialaccount
-- Configured AUTHENTICATION_BACKENDS to include Allauth backend
-- Set SITE_ID = 1
-- Created project-level templates directory
-- Added `django.template.context_processors.request` (required by allauth)
-- Configured login and logout redirect URLs
-- Set minimal account settings for MVP:
-    - Email required
-    - Username required
-    - Email verification disabled (MVP scope)
-
-This prepares the project for implementing Register, Login, Logout, and Account Management functionality in Phase 1.
-
-After realizing my secret was hardcoded in my settings.py file I moved SECRET_KEY to env var; rotated after accidental exposure.
-
-----------------
-
-## Middleware & URL Wiring
-
-After configuring django-allauth in settings.py, the authentication system was fully wired into the project:
-Added allauth.account.middleware.AccountMiddleware to MIDDLEWARE
-Included path("accounts/", include("allauth.urls")) in todo_project/urls.py
-Confirmed SITE_ID = 1 and updated local Site record for development
-
-Verified all required migrations for:
-
-account
-auth
-sessions
-sites
-socialaccount
-
-This ensured the authentication routes were active and functional.
-
---------
-
-Template Scaffold (Authentication Phase)
-
-To establish a consistent UI foundation:
-
-Created a project-level templates/ directory
-Created base.html as the shared layout
-Created templates/todo/home.html
-Updated home view to render todo/home.html
-Confirmed navigation conditionally displays:
-Login / Register (anonymous users)
-Logout + Account links (authenticated users)
-
-This establishes the base layout for Phase 1 before introducing List and Task models.
-
--------
-
-Local & Production Alignment
-
-Confirmed authentication routes work locally:
-
-/accounts/login/
-/accounts/signup/
-/accounts/password/reset/
-Verified application deploys successfully on Heroku
-Confirmed Gunicorn boots correctly with no startup errors
-Maintained environment variable configuration for SECRET_KEY
-Rotated exposed secret key and removed hardcoded value from codebase
-
------------
-
-Authentication — Production Verification (Heroku)
-Manual production testing completed on Heroku to confirm the Phase 1 authentication scaffold is working end-to-end.
-
-Tests performed (Production):
-
-Home page loads successfully (/)
-Signup works (/accounts/signup/)
-User is automatically logged in after signup
-Redirect to home (/) confirmed
-Authenticated navigation displays account actions (Update Email / Change Password / Logout)
-No email verification required (MVP setting)
-No debug traceback visible in production (DEBUG=False)
-
-Result: Pass (Phase 1 complete)
+DATABASES = {
+   "default": dj_database_url.config(
+       default="sqlite:///db.sqlite3"
+   )
+}
+Production verified using:
+connection.vendor == "postgresql"
+Security:
+SECRET_KEY stored as environment variable
 
 
-Development Phases
-Phase 1: Authentication scaffold + production verification (Complete)
-Phase 2: Custom models (List, Task) + ownership + CRUD
-Phase 3: UX polish (messages, confirmations), testing, README finalisation, AI reflection
+Hardcoded secret removed and rotated
 
-----------
-## Production Database Setup (Heroku Postgres)
 
-During deployment verification, the app was initially found to be using SQLite in production (`/app/db.sqlite3`) despite `DATABASE_URL` being set. This would not meet the requirement for PostgreSQL in production.
+.gitignore excludes:
 
-### Fix: DATABASES configuration
-`settings.py` was updated so that:
-- In production (when `DATABASE_URL` exists), Django uses PostgreSQL via `dj_database_url`
-- In local development (when `DATABASE_URL` is not set), Django falls back to SQLite
 
-Production database usage was verified on Heroku using Django shell (`connection.vendor == "postgresql"`).
+db.sqlite3
 
-### Heroku Postgres provisioning
-A Heroku Postgres add-on was attached to the app:
 
-- Plan: `heroku-postgresql:essential-0`
+.venv/
 
-Provisioning was confirmed using:
-- `heroku addons:info ...`
-- `heroku pg:wait`
-- `heroku pg:info`
-- `heroku config:get DATABASE_URL`
 
-### Production migrations + admin verification
-After attaching Postgres:
-- Production migrations were applied (`python manage.py migrate`)
-- A production superuser was created (`python manage.py createsuperuser`)
-- Admin login was confirmed via `/admin/`
+env files
 
-### Repository & Environment Configuration
 
-To ensure production security and clean version control:
+pycache/
 
-A .gitignore file was created to exclude:
-db.sqlite3 (local development database)
-Virtual environment directories (.venv/)
-__pycache__/ files
-Environment configuration files (env.py, .env)
-Sensitive data such as SECRET_KEY is stored in Heroku environment variables.
-DEBUG is set to False in production.
-PostgreSQL is used in production via DATABASE_URL.
-SQLite is used locally for development only.
 
-This prevents:
 
-Accidental credential leaks
-Committing local database files
-Deployment inconsistencies
+Authentication (Phase 1)
+Implemented using django-allauth.
+Login / Signup / Logout
 
-------------------------------------------------
 
-## Phase 2 – Custom Models & Ownership Architecture
+Password change
 
-Custom Data Models
-Two relational models were implemented to satisfy the custom model requirement:
 
+Email update
+
+
+Custom template overrides
+
+
+Secure POST logout
+
+
+Environment-based settings
+
+
+DEBUG=False in production
+
+
+All authentication routes verified locally and in production.
+
+Database & Models (Phase 2)
+Relational Structure
+User → TodoList → Task
 TodoList Model
+owner → FK(User)
 
-owner → ForeignKey to User (required, CASCADE)
-name → CharField
-created_on → DateTimeField (auto_now_add)
-updated_on → DateTimeField (auto_now)
+
+name
+
+
+created_on
+
+
+updated_on
+
 
 Task Model
+todo_list → FK(TodoList)
 
-todo_list → ForeignKey to TodoList (CASCADE)
-title → CharField
-description → Optional TextField
-completed → BooleanField (default=False)
-due_date → Optional DateField
-created_on → DateTimeField
-updated_on → DateTimeField
 
-This establishes a relational hierarchy:
+title
 
-User → TodoList → Task
 
-Ownership & Authorisation Strategy
-Authorisation is enforced at multiple levels:
+description (optional)
 
-All list views use LoginRequiredMixin
-Querysets filter strictly by owner=request.user
-List creation assigns owner=request.user server-side
-URL-level access uses get_object_or_404(..., owner=request.user)
-Tasks are scoped via todo_list__owner=request.user
 
-This prevents:
+completed (Boolean)
 
-Accessing another user’s data via URL manipulation
-Spoofing ownership via POST requests
-Orphaned records
 
-Non-authorised access returns HTTP 404 to avoid leaking object existence.
+due_date (optional)
 
-Relational Integrity Decisions
-on_delete=models.CASCADE used for:
-List → User
-Task → TodoList
 
-This ensures:
+created_on
 
-No orphaned tasks
-No orphaned lists
-Referential integrity maintained in PostgreSQL
 
-Manual Testing (Phase 2)
-Tested locally and in production:
+updated_on
 
-Logged-out users redirected to login
-Logged-in users see only their own lists
-Users cannot access another user's list via direct URL
-List creation assigns correct owner
-Production migrations applied successfully in Heroku Postgres
 
-Result: Authorisation requirement satisfied.
+CASCADE deletion ensures referential integrity.
 
-----------------
+Authorisation & Security
+Strict object-level ownership enforcement.
+Implemented Controls
+LoginRequiredMixin on all protected views
 
-## Phase 2: List Detail + URL Ownership Enforcement
 
-Added list detail route: /lists/<int:pk>/
-Implemented TodoListDetailView with LoginRequiredMixin
-Enforced ownership in get_object() using get_object_or_404(TodoList, pk=..., owner=request.user) so URL manipulation returns 404
-Updated list index to link to list detail pages
-Added minimal list_detail.html template (foundation for Task CRUD)
+Querysets filtered by owner=request.user
 
-Manual tests:
 
-Logged-out users redirected to login
-User B cannot access User A’s list by direct URL (404)
+Nested task routes:
 
-----------------
+ /lists/<list_pk>/tasks/<task_pk>/...
 
-## Phase 2: Nested Task Creation (Ownership Inherited from Parent)
 
-A nested route was implemented to allow task creation within a specific list:
-/lists/<int:pk>/tasks/new/
+get_object_or_404(..., owner=request.user)
 
-Architecture Decisions
 
-Implemented TaskCreateView using LoginRequiredMixin
-Parent TodoList resolved using:
-get_object_or_404(TodoList, pk=..., owner=request.user)
+404 masking (prevents ID enumeration)
 
-The todo_list foreign key is not exposed in the form
-The parent list is assigned server-side in form_valid()
-Redirects back to the parent list detail page on success
 
-This ensures:
+Foreign keys assigned server-side
 
-Users cannot create tasks inside another user's list
-Foreign key tampering via POST manipulation is prevented
-Tasks inherit ownership implicitly via their parent list
-URL manipulation returns HTTP 404
 
-Template Integration
-
-Updated list_detail.html to:
-Display tasks using todo_list.tasks.all
-Provide a "+ Add Task" link scoped to the current list
-Used related_name="tasks" on the Task foreign key for clean reverse querying
-
-Manual Testing
-
-Tested locally and in production:
-Logged-in users can create tasks inside their own list
-Tasks display correctly under the parent list
-Logged-out users are redirected to login
-Attempting to access /lists/<other_user_pk>/tasks/new/ returns 404
-Foreign key cannot be overridden via form tampering
-
-Result: Nested Task creation implemented with strict ownership enforcement.
-
----------------------
-
-## Phase 2: Task Update & Delete
-
-Added nested task edit and delete routes:
-/lists/<list_pk>/tasks/<task_pk>/edit/
-/lists/<list_pk>/tasks/<task_pk>/delete/
-
-Implemented TaskUpdateView and TaskDeleteView with strict ownership enforcement using:
-get_object_or_404(Task, pk=task_pk, todo_list__pk=list_pk, todo_list__owner=request.user)
-Prevented FK reassignment by excluding todo_list from forms and enforcing parent list linkage in object retrieval.
-
-Manual testing confirmed (local + production):
-Owners can edit/delete their own tasks
-Logged-out users are redirected to login
-Cross-user URL manipulation returns 404
-
------------------------
-
-## Phase 2 – Step 10: UX & Messages
-
-Implemented Django messages framework for CRUD feedback.
-Centralised message display in base.html to ensure consistent global rendering.
-Added success messages for list and task create, update, and delete actions.
-Removed duplicate template message blocks to prevent repeated output.
-Manually tested locally and in production.
-
-----------------
-
-## End of Phase 2 Manual Testing
-
-Manual Testing
-
-All core functionality was manually tested in both local development and the deployed Heroku environment.
-
-CRUD & UX Manual Tests (Lists + Tasks)
-| Feature | Test Case | Steps | Expected Result | Pass |
-|---------|-----------|-------|----------------|------|
-| List – Create | Create a new list as logged-in user | Login → “New List” → enter name → Save | List created; success message shown; list appears in “Your lists” | ✅ |
-| List – Read | View list detail page | From “Your lists” click a list | List detail loads; only that list’s tasks displayed | ✅ |
-| List – Delete | Delete existing list | Open list → Delete → confirm | List removed; success message shown; cannot access list URL after deletion (404) | ✅ |
-| Task – Create | Create a task inside a list | Open list → “Add task” → fill fields → Save | Task added under correct list; success message shown | ✅ |
-| Task – Update | Edit a task | Open list → Edit task → change fields → Save | Task updates; success message shown | ✅ |
-| Task – Mark Complete | Toggle completed flag | Edit task → set Completed true → Save (or checkbox, if used) | Task shows as completed and persists on refresh | ✅ |
-| Task – Delete | Delete a task | Open list → Delete task → confirm | Task removed; success message shown; task URL no longer accessible (404) | ✅ |
-| Messages | Messages render consistently | Perform create/update/delete actions | Success messages appear once and do not persist incorrectly across pages | ✅ |
-| Logged-out protection | Redirect when not authenticated | Logout → visit /lists/ and a list detail URL directly | Redirected to login; no data leaked | ✅ |
-
-------------------------
-
-Authorisation & Security Manual Tests
-
-| Security Area | Test Case | Steps | Expected Result | Pass |
-|---------------|-----------|-------|----------------|------|
-| List ownership | Another user cannot view your list | Login as User A → copy list URL → logout → login as User B → paste URL | 404, not permission denied | ✅ |
-| List ownership | Another user cannot delete your list | As User B attempt list delete URL for User A’s list | 404; list remains for User A | ✅ |
-| Task ownership (nested) | Another user cannot edit your task | As User B attempt task edit URL with User A list_pk + task_pk | 404; no task data exposed | ✅ |
-| Task ownership (nested) | Another user cannot delete your task | As User B attempt task delete URL with User A list_pk + task_pk | 404; task remains for User A | ✅ |
-| Nested integrity | Task cannot be accessed outside its parent list | Try mismatched list_pk with valid task_pk | 404; prevents cross-list ID enumeration | ✅ |
-| Authentication required | Protected views require login | Logout → attempt list create/task create/edit/delete URLs | Redirect to login; no server error | ✅ |
-
-----------------------
-
-## Phase 3
-
-Authorisation & Security Implementation
-
-The application enforces strict authentication and object-level ownership controls to prevent unauthorised access.
-
-Authentication
-
-All list and task views are protected using LoginRequiredMixin.
-Unauthenticated users attempting to access protected routes are redirected to the login page.
-No list or task data is accessible without authentication.
-
-Object-Level Authorisation
-Ownership is enforced at the queryset level:
-
-TodoList querysets are filtered using:
-
-owner=request.user
-
-List detail views use get_object_or_404() with owner filtering to prevent cross-user access.
-Task routes are nested and validated using:
-task_pk
-list_pk
-todo_list__owner=request.user
-
-This ensures a task cannot be accessed:
-
-By another authenticated user
-Outside its parent list
-Via manual URL manipulation
-
-ID Enumeration Protection
-
-If a user attempts to access another user's list or task by altering the URL:
-
-The system returns 404 (Not Found).
-The application does not reveal whether the object exists.
-No sensitive data is exposed.
-
-Foreign Key Protection
-
-Forms do not allow reassignment of owner or todo_list.
-Foreign key relationships are enforced server-side.
-Users cannot attach tasks to lists they do not own.
-
-Security Summary
-
-The application implements:
-Authentication enforcement
-Object-level ownership validation
-Nested route protection
-404 masking for unauthorised access
 No public data endpoints
 
-All authorisation behaviour was manually tested in both development and production environments.
-
-------------------
-
-## Template Overrides & UX Improvements
-
-The default django-allauth logout confirmation template was overridden to improve user experience.
-
-A custom template was created at:
-
-templates/account/logout.html
-
-Changes implemented:
-
-Integrated logout confirmation into the main site layout using base.html
-Added a “Cancel” option to prevent forced logout
-Ensured logout remains a secure POST request
-Corrected URL namespacing using todo:list_index
-
-This maintains secure authentication behaviour while improving navigation and usability.
-
-------------------------------------
-
-## UI Refinement & Wireframe Alignment
-
-During Phase 3, the user interface was refined to align with mobile-first wireframes while maintaining strict adherence to assessment requirements and Django best practices.
-
-Landing Page Implementation
-
-A dedicated public landing page was introduced using a HomeView:
-
-Created home.html as a standalone mobile-first landing screen
-Implemented authentication-based redirect logic:
-Unauthenticated users see the landing page
-Authenticated users are redirected to todo:list_index
-Removed navigation from unauthenticated views to match wireframes
-Ensured no JavaScript was introduced
-
-This maintains clean separation between public and authenticated user flows.
-
-URL Namespacing & Routing Correction
-
-To support clean reverse lookups and prevent routing conflicts:
-Moved HomeView to project-level urls.py
-Removed root path duplication inside todo/urls.py
-Updated redirect logic to use namespaced routes (todo:list_index)
-Resolved NoReverseMatch and root path conflicts
-
-This ensures scalable URL structure and proper namespacing.
-
-Static File Configuration
-
-A project-level static directory was implemented:
-
-static/
-    css/
-        style.css
-
-Configuration updates included:
-
-Corrected STATICFILES_DIRS setting
-Linked stylesheet in base.html using {% load static %}
-Verified static files load in both local and production (Heroku)
-
-Production static handling continues to use WhiteNoise.
----------------
-Authentication Template Overrides
-
-Custom templates were created to override django-allauth defaults:
-
-templates/account/login.html
-templates/account/signup.html
-
-Enhancements:
-
-Mobile-first stacked form layout
-Full-width primary action buttons
-Clear secondary navigation prompts
-Styled Django messages
-Preserved secure POST authentication behaviour
-Maintained allauth default validation logic (no backend modification)
-
-All templates extend base.html and follow consistent structure.
-------------------------------
-UI Design Principles Applied
-
-Mobile-first layout
-Minimal CSS
-No frameworks
-No JavaScript enhancements
-No feature creep
-Clean heading hierarchy
-Consistent spacing and form structure
-Accessibility preserved through semantic HTML
----------------------------
-Production Verification
-
-All UI refinements were:
-
-Tested locally
-Committed with structured Git history
-Deployed to Heroku
-Verified in production environment
-
-No regressions in authentication, authorisation, or CRUD functionality were introduced.
-
---------------------------------
-
-## Phase 3 – UI Polish (Authenticated Screens)
-
-This phase focused on refining the user interface without introducing new features or frontend frameworks. The goal was to align the application with the predefined mobile-first wireframes while maintaining clean Django structure.
-
-Dashboard (list_index)
-
-Replaced default global navigation with a custom dashboard header.
-Implemented a consistent dark layout container.
-Added floating action button for list creation.
-Scoped Django messages to render inside the dashboard layout.
-Removed unwanted global message and auth navigation bars.
-
-List Detail (list_detail)
-
-Implemented consistent dashboard-style layout for task index within a list.
-Ensured task creation, editing, and deletion redirect back to the correct parent list.
-Added contextual success messages (“Task created”, “Task updated”, “Task deleted”) displayed only on the list detail page.
-Prevented messages from appearing on form screens.
-
-Task Form (task_form)
-
-Consolidated create and edit functionality into a single template.
-Dynamically changed headings and submit button labels based on form state (Create vs Edit).
-Scoped global navigation and messages to prevent layout conflicts.
-Applied consistent mobile-first styling using existing CSS classes.
-
-Task Delete Confirmation
-
-Implemented a styled confirmation screen aligned with the application’s visual system.
-Removed global auth navigation for consistency.
-Maintained clear destructive action UX.
-
-Message Handling Improvements
-
-Refactored message rendering using template block overrides.
-Scoped messages per screen instead of globally rendering above <main>.
-Ensured correct post-redirect message display on relevant pages only.
-
-Redirect Logic
-
-Updated get_success_url() in task views to redirect to the appropriate parent list.
-Ensured dashboard is only accessed intentionally via navigation, not automatically after task operations.
 
 Result
+Users cannot:
+Access another user's lists
 
-The UI now:
 
-Matches wireframe structure
-Is mobile-first and consistent across authenticated screens
-Maintains clean separation of concerns (views control redirect + messages; templates control layout)
-Avoids duplication by using shared templates where appropriate
+Access another user's tasks
 
-More UI Polish
 
-Refactored base template to support scoped navigation and message block overrides. This allows dashboard-style pages to remove global authentication navigation and control message placement per view, improving layout consistency and UI clarity.
+Manipulate URLs to retrieve data
 
-Profile Management & Account Controls
 
-A dedicated profile management section was implemented to provide controlled user account editing without relying on the global navigation bar.
+Reassign ownership via POST tampering
 
-Profile Hub
 
-A new authenticated route (/profile/) provides an account management hub where users can:
+All verified locally and in production.
 
-View current username
-View current email
-Access password management
-Navigate back to dashboard
+CRUD Functionality
+Fully implemented for:
+Create List
 
-The global navigation bar is overridden on profile-related pages to maintain UI consistency and match wireframe specifications.
-Username Update (Custom Implementation)
 
-A custom UsernameUpdateView and UsernameForm were created to allow secure username updates.
+Read List
 
-Security considerations:
 
-Username uniqueness validation
-Ownership enforced via LoginRequiredMixin
-Success feedback via Django messages framework
-Redirect back to profile upon success
+Update List
 
-Email & Password Updates
 
-Django-allauth views were retained for:
+Delete List
 
-Email updates
-Password changes
 
-However, default allauth templates were overridden to:
+Create Task (nested)
 
-Match the dark mobile-first UI
-Remove global navigation
-Provide consistent back navigation to the profile hub
--Maintain scoped message rendering
 
-This preserves Django-allauth’s secure backend logic while aligning the frontend with the application’s design system.
+Update Task
 
-Navigation Refinement
 
-“Profile” link now exists only on the dashboard.
-List detail pages follow the pattern:
+Delete Task
 
-Back | Title | Edit/Delete
 
-Global authentication navigation remains available only where appropriate.
+Mark Task Complete
 
-This improves layout clarity and reduces visual clutter across the application.
 
------------------------------------
+Django messages framework used for UX feedback.
+All CRUD tested in:
+Local SQLite
 
-Task Completion UX Refinement
 
-The task completion flow was adjusted to improve usability and align with expected task lifecycle behaviour.
+Production Heroku Postgres
 
-Changes Implemented
 
-Removed the completed checkbox from the Task Create view.
-Added the completed checkbox exclusively to the Task Edit view.
-Ensured completed tasks:
-Automatically move to the bottom of the list.
-Remain visible until manually deleted.
-Render with reduced opacity and strikethrough styling for visual distinction.
 
-Rationale
+UI & UX (Phase 3)
+Design goals:
+Mobile-first
 
-This change reflects a more intuitive workflow:
 
-A task should not typically be marked complete at the moment of creation.
-Completion is a state change that occurs during task editing.
-Completed tasks remain accessible for reference rather than being automatically removed.
+No frontend frameworks
 
-Technical Notes
 
-No database changes were required.
-Model-level ordering (ordering = ["completed", "-updated_on", "-created_on"]) ensures incomplete tasks appear first.
-Styling was implemented using conditional template classes and minimal CSS.
-No JavaScript was introduced.
+No JavaScript
 
------------------------------
 
-Responsive Layout Refinement (Desktop Constraint)
+Minimal CSS
 
-To improve usability and visual balance on larger screens, a responsive width constraint was implemented.
 
-Changes Implemented
+Wireframe alignment
 
-Introduced a media query at min-width: 768px.
-Applied a max-width constraint to:
 
-.auth
-.dashboard
-.landing-container
+Key Refinements
+Public landing page (redirects authenticated users)
 
-Centered layouts using margin: 0 auto.
-Preserved full-width layout on mobile devices.
 
-Rationale
+Custom dashboard layout
 
-The application was built mobile-first.
-However, on desktop screens the layout appeared overly stretched horizontally.
 
-Applying a controlled max-width:
+Scoped message rendering
 
-Improves readability.
-Prevents UI elements from spanning excessively wide.
-Maintains a professional, app-like appearance.
-Keeps mobile behaviour unchanged.
 
-Technical Implementation
+Custom profile hub (/profile/)
 
-Implemented via CSS media query only:
+
+Username update (custom view)
+
+
+Allauth template overrides
+
+
+Responsive desktop width constraint:
+
 
 @media (min-width: 768px) {
-  .auth,
-  .dashboard,
-  .landing-container {
-    max-width: 480px;
-    margin: 0 auto;
-  }
+ .auth,
+ .dashboard,
+ .landing-container {
+   max-width: 480px;
+   margin: 0 auto;
+ }
 }
+Completed tasks:
+Appear below active tasks
 
-No template changes were required.
+
+Styled with strikethrough + reduced opacity
+
+
+Remain visible until manually deleted
+
+
+
+Testing
+Manual testing completed locally and in production.
+Verified:
+All CRUD operations
+
+
+Redirect for unauthenticated users
+
+
+Cross-user access returns 404
+
+
+Nested route integrity
+
+
+Messages display correctly
+
+
+Postgres in production
+
+
+DEBUG=False confirmed
+
+
+All tests passed.
+
+Admin Panel
+Django admin enabled for:
+Users
+
+
+TodoLists
+
+
+Tasks
+
+
+Production superuser created after Postgres provisioning.
+
+Technologies Used
+Python
+
+
+Django
+
+
+PostgreSQL
+
+
+SQLite
+
+
+Gunicorn
+
+
+WhiteNoise
+
+
+django-allauth
+
+
+Heroku
+
+
+Git / GitHub
+
+
+VS Code
+
+
+
+Security Summary
+✔ Environment-based configuration
+ ✔ Postgres in production
+ ✔ DEBUG=False
+ ✔ SECRET_KEY not committed
+ ✔ Object-level ownership enforced
+ ✔ 404 masking for unauthorised access
+ ✔ No data exposure via URL manipulation
+
+Development Phases
+Phase 1 – Authentication & deployment
+ Phase 2 – Custom models + ownership + CRUD
+ Phase 3 – UI polish, testing, README finalisation
+

@@ -1,9 +1,9 @@
 
-Capstone Project – To-Do List Application
+# Capstone Project – To-Do List Application
 
-A minimal, mobile-first Full Stack Django to-do list application built in VS Code, using:
+### A minimal, mobile-first Full Stack Django to-do list application built in VS Code, using:
 
-  - Django (CBVs)
+  - Django
   - PostgreSQL (production – Heroku)
   - SQLite (local development)
   - django-allauth (authentication)
@@ -14,7 +14,7 @@ Link to app (ignore security error message): https://capstone-todo-f-1ceb56fe095
 
 -------------------------------------
 
-Live Application
+### Live Application
 
 Deployed on Heroku.
 Admin panel available at:
@@ -23,7 +23,7 @@ Admin panel available at:
 
 (Admin credentials provided separately.)
 
-Project Overview
+#### Project Overview
 
 - Users can:
   1. Register (username + email + password)
@@ -36,7 +36,7 @@ The application enforces strict authentication and object-level ownership.
 
 ------------------------------
 
-- Agile Planning (LO1)
+#### - Agile Planning
   - Wireframes
   - GitHub Project (Kanban board)
   - Epics + User Stories created as Issues
@@ -58,7 +58,7 @@ Link to project board: https://github.com/users/Shieldsx/projects/7
 
 ----------------------------------------------------
 
-Deployment Architecture
+### Deployment Architecture
 
 - Production Stack
   - Heroku
@@ -66,7 +66,7 @@ Deployment Architecture
   - WhiteNoise
   - Heroku Postgres (essential-0 plan)
 
-Key Production Config
+#### Key Production Config
 
 ```python
 DEBUG = os.environ.get("DEBUG", "False") == "True"
@@ -102,7 +102,7 @@ Security:
 
 -------------------------------------------
 
-Authentication (Phase 1)
+### Authentication (Phase 1)
 
 Implemented using django-allauth.
   - Login / Signup / Logout
@@ -118,19 +118,19 @@ All authentication routes verified locally and in production.
 
 ------------------------------------
 
-Database & Models (Phase 2)
+### Database & Models (Phase 2)
 Relational Structure
 
 `User → TodoList → Task`
 
-TodoList Model
+#### TodoList Model
   - owner → FK(User)
   - name
   - created_on
   - updated_on
 
 
-Task Model
+#### Task Model
   - todo_list → FK(TodoList)
   - title
   - description (optional)
@@ -142,11 +142,11 @@ CASCADE deletion ensures referential integrity.
 
 ----------------------------------------------------
 
-Authorisation & Security
+### Authorisation & Security
 
 Strict object-level ownership enforcement.
 
-Implemented Controls
+#### Implemented Controls
   - LoginRequiredMixin on all protected views
   - Querysets filtered by owner=request.user
   - Nested task routes:
@@ -158,7 +158,7 @@ Implemented Controls
   - Foreign keys assigned server-side
   - No public data endpoints
 
-Result
+#### Result
 Users cannot:
   - Access another user's lists
   - Access another user's tasks
@@ -167,7 +167,7 @@ Users cannot:
 
 All verified locally and in production.
 
-CRUD Functionality
+### CRUD Functionality
 
 Fully implemented for:
   - Create List
@@ -186,7 +186,7 @@ All CRUD tested in:
 
 ------------------------------------------------
 
-UI & UX (Phase 3)
+### UI & UX (Phase 3)
 
 Design goals:
   - Mobile-first
@@ -223,7 +223,7 @@ Completed tasks:
 -----------------------------------
 -----------------------------------
 
-Testing
+### Testing
 
 Manual testing completed locally and in production.
 
@@ -277,7 +277,7 @@ All tests passed.
 
 --------------------------------------------
 
-Admin Panel
+#### Admin Panel
 
 Django admin enabled for:
   - Users
@@ -288,7 +288,7 @@ Production superuser created after Postgres provisioning.
 
 -------------------------------------
 
-Technologies Used
+#### Technologies Used
   - Python
   - Django
   - PostgreSQL
@@ -302,18 +302,18 @@ Technologies Used
 
 ---------------------------------------------------------
 
-Security Summary
- - Environment-based configuration ✔
- - Postgres in production ✔
- - DEBUG=False ✔
- - SECRET_KEY not committed ✔
- - Object-level ownership enforced ✔
- - 404 masking for unauthorised access ✔
- - No data exposure via URL manipulation ✔
+#### Security Summary
+ - Environment-based configuration 
+ - Postgres in production 
+ - DEBUG=False 
+ - SECRET_KEY not committed 
+ - Object-level ownership enforced 
+ - 404 masking for unauthorised access 
+ - No data exposure via URL manipulation 
 
 ---------------------------------------------------
 
-Development Phases
+### Development Phases
 
 - Phase 1 – Authentication & deployment
 - Phase 2 – Custom models + ownership + CRUD
@@ -326,13 +326,17 @@ AI Usage Disclosure
 AI assistance was used in the following areas:
   - Supporting project planning and structuring the development process to align with early deployment and continuous testing strategy.
   - Providing limited guidance on specific Django configuration and implementation details.
+  - Refining manual testing documentation into structured tables.
+  - Explaining some Django concepts.
+  - Improving wording for professional documentation.
+  - Minor syntax guidance for settings configuration and Markdown formatting.
   - Generating initial CSS scaffolding to help match predefined wireframes.
 
-All core architectural decisions, model design, authentication logic, ownership enforcement, testing, and deployment configuration were implemented and validated manually.
+I basically used AI as a document assistant, deployment/debugging explainer and a second set of eyes. All core architectural decisions, model design, authentication logic, ownership enforcement, testing, and deployment configuration were implemented and validated manually.
 
 -----------------------------------------------------------------------
 
-Production DEBUG Verification (Heroku)
+### Production DEBUG Verification (Heroku)
 
 Production configuration was verified to ensure DEBUG=False.
 
